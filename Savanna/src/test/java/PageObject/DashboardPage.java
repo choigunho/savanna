@@ -179,8 +179,12 @@ public class DashboardPage {
 				label = getFlumeHosts(component); 
 				break;
 			case Component.AmbariMetricsCollector: label = label_for_metrics_collector; break;
-			case Component.Cassandra_SeedNode: label = label_for_cassandraseednode; break;
-			case Component.Cassandra_Prometheus: label = label_for_prometheus; break;
+			case Component.Cassandra_SeedNode: 
+				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_cassandraseednode));
+				label = label_for_cassandraseednode; break;
+			case Component.Cassandra_Prometheus: 
+				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_prometheus));
+				label = label_for_prometheus; break;
 			case Component.Elasticsearch_MasterDataNode:
 				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_master_data_node));
 				label = label_for_master_data_node; break;
