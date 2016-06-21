@@ -26,7 +26,7 @@ public class ShellCommandTest {
 		driver = AccountUtil.login(userId, pwd);
 	}
 	
-	@Test
+//	@Test
 	public void ShellCommandTest() throws Exception {
 		
 		String host = "172.21.80.146";
