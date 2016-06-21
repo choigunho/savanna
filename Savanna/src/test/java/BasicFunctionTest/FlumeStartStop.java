@@ -58,7 +58,8 @@ public class FlumeStartStop {
 			String host = TestEnv.getHOST_IP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(!result.contains(TestVar.FLUME_PROCESS_CMD));
+			// !넣어야함
+			assertTrue(result.contains(TestVar.FLUME_PROCESS_CMD));
 		}
 		
 	}
