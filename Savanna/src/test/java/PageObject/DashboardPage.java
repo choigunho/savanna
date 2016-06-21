@@ -166,7 +166,6 @@ public class DashboardPage {
 				// todo 
 				driver.findElement(By.cssSelector("tr.component.DATANODE")).findElement(By.tagName("td")).findElement(By.tagName("a")).click();
 				wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
-				Thread.sleep(Sleep.TwoSecond);
 				label = getDataNodeHosts(component); 
 				break;
 			case Component.MapReduce2_HistoryServer: label = label_for_historyserver; break;
@@ -182,7 +181,9 @@ public class DashboardPage {
 			case Component.AmbariMetricsCollector: label = label_for_metrics_collector; break;
 			case Component.Cassandra_SeedNode: label = label_for_cassandraseednode; break;
 			case Component.Cassandra_Prometheus: label = label_for_prometheus; break;
-			case Component.Elasticsearch_MasterDataNode: label = label_for_master_data_node; break;
+			case Component.Elasticsearch_MasterDataNode:
+				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_master_data_node));
+				label = label_for_master_data_node; break;
 			case Component.KafkaBroker: label = label_for_kafka_broker; break;
 			case Component.Livy_SparkRestServer: label = label_for_livy_sparkrestserver; break;
 			case Component.SparkHistoryServer: label = label_for_spark_jobhistoryserver; break;
