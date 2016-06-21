@@ -37,7 +37,7 @@ public class HDFSStartStop {
 		driver = AccountUtil.login(userId, pwd);
 	}
 	
-	@Test
+//	@Test
 	public void case1_hdfsServiceStop() throws Exception {
 		
 		// 페이지 이동
@@ -83,7 +83,7 @@ public class HDFSStartStop {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void case2_hdfsServiceStart() throws Exception {
 		
 		// 페이지 이동
