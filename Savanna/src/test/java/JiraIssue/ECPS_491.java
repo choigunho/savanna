@@ -15,7 +15,6 @@ import org.openqa.selenium.support.PageFactory;
 
 import common.AccountUtil;
 import common.CommonConstant.Service;
-import PageObject.DashboardPage;
 import PageObject.ServicePage;
 import PageObject.YARNPage;
 
@@ -37,8 +36,7 @@ public class ECPS_491 {
 	@Test
 	public void ECPS_491() throws Exception {
 		
-		DashboardPage dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
-//		dashboardPage.serviceClick(Service.YARN);
+		service.movePage(Service.YARN);
 		
 		YARNPage yarn= PageFactory.initElements(driver, YARNPage.class);
 		yarn.pageLinkClick();

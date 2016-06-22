@@ -143,13 +143,7 @@ public class ServicePage {
 	public void stop(String serviceName) {
 
 		// 서비스 이동
-		List<WebElement> elements = nav_services.findElements(By.cssSelector("li"));
-		for(WebElement element : elements) {
-			if(element.getText().trim().startsWith(serviceName)) {
-				element.click();
-				break;
-			}
-		}
+		movePage(serviceName);
 		
 		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
@@ -167,13 +161,7 @@ public class ServicePage {
 	public void start(String serviceName) {
 
 		// 서비스 이동
-		List<WebElement> elements = nav_services.findElements(By.cssSelector("li"));
-		for(WebElement element : elements) {
-			if(element.getText().trim().startsWith(serviceName)) {
-				element.click();
-				break;
-			}
-		}
+		movePage(serviceName);
 		
 		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
@@ -186,6 +174,16 @@ public class ServicePage {
 		we.click();
 		
 		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click();  
+	}
+	
+	public void movePage(String serviceName) {
+		List<WebElement> elements = nav_services.findElements(By.cssSelector("li"));
+		for(WebElement element : elements) {
+			if(element.getText().trim().startsWith(serviceName)) {
+				element.click();
+				break;
+			}
+		}
 	}
 	
 	public void checkStatus(final String target, final String expectedStatus, WebDriver driver) {
