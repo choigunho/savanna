@@ -21,10 +21,10 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.LivyPage;
+import PageObject.YARNPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class LivyStartStop {
+public class YARN {
 
 	String userId = AccountUtil.getUserId();
 	String pwd =  AccountUtil.getUserPwd();
@@ -37,60 +37,71 @@ public class LivyStartStop {
 		driver = AccountUtil.login(userId, pwd);
 	}
 	
-	
 	@Test
-	public void case1_LivyServiceStop() throws Exception {
+	public void case1_ServiceStop() throws Exception {
 		
-		// 페이지 이동
+		// Spark 페이지로 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Livy);
+		dashboard.serviceClick(Service.YARN);
 		
 		// 서비스 중지  
-		LivyPage livy = PageFactory.initElements(driver, LivyPage.class);
-		livy.stop();
+		YARNPage yarn = PageFactory.initElements(driver, YARNPage.class);
+		yarn.stop();
 		
-		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.Livy_SparkRestServer, ServiceStatus.Stoped, driver);
-		
+		// 앱 타임라인 서버 요약 페이지 문구 변경 확인
+		dashboard.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Stoped, driver);
 		// 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.Livy_SparkRestServer);
+		List<String> hosts = dashboard.getHost(Component.YARN_AppTimelineServer);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep livy";
+		String command = "ps -ef | grep yarn";
 		boolean bCheckExitCode = true;
-		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(!result.contains(TestVar.LIVY_SPARK_REST_SERVER_PROCESS_CMD));
+		assertTrue(!result.contains(TestVar.APP_TIMELINE_SERVER_PROCESS_CMD));
+
+		// 리소스매니저 문구 변경 확인
+		dashboard.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Stoped, driver);
+		// 프로세스 kill 확인
+		hosts = dashboard.getHost(Component.YARN_ResourceManager);
+		host = TestEnv.getHOST_IP(hosts.get(0));
+		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
+		assertTrue(!result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
 		
 	}
 	
 	@Test
-	public void case2_LivyServiceStart() throws Exception {
+	public void case2_ServiceStart() throws Exception {
 
-		// 페이지 이동
+		// Spark 페이지로 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Livy);
+		dashboard.serviceClick(Service.YARN);
 		
 		// 서비스 시작  
-		LivyPage livy = PageFactory.initElements(driver, LivyPage.class);
-		livy.start();
+		YARNPage yarn = PageFactory.initElements(driver, YARNPage.class);
+		yarn.start();
 		
-		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.Livy_SparkRestServer, ServiceStatus.Started, driver);
-				
-		// 프로세스 running 확인
-		List<String> hosts = dashboard.getHost(Component.Livy_SparkRestServer);
+		// 앱 타임라인 서버 문구 변경 확인
+		dashboard.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Started, driver);
+		// 프로세스 kill 확인
+		List<String> hosts = dashboard.getHost(Component.YARN_AppTimelineServer);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep livy";
+		String command = "ps -ef | grep yarn";
 		boolean bCheckExitCode = true;
-		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(result.contains(TestVar.LIVY_SPARK_REST_SERVER_PROCESS_CMD));
+		assertTrue(result.contains(TestVar.APP_TIMELINE_SERVER_PROCESS_CMD));
+		
+		// 리소스매니저 문구 변경 확인
+		dashboard.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Started, driver);
+		// 프로세스 kill 확인
+		hosts = dashboard.getHost(Component.YARN_ResourceManager);
+		host = TestEnv.getHOST_IP(hosts.get(0));
+		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
+		assertTrue(result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
 		
 	}
 	

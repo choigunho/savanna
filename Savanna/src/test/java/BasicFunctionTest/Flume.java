@@ -22,7 +22,7 @@ import PageObject.DashboardPage;
 import PageObject.FlumePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class FlumeStartStop {
+public class Flume {
 
 	String userId = AccountUtil.getUserId();
 	String pwd =  AccountUtil.getUserPwd();
@@ -36,7 +36,7 @@ public class FlumeStartStop {
 	}
 	
 	@Test
-	public void case1_FluemServiceStop() throws Exception {
+	public void case1_ServiceStop() throws Exception {
 		
 		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
@@ -65,7 +65,7 @@ public class FlumeStartStop {
 	}
 	
 	@Test
-	public void case2_FlumeServiceStart() throws Exception {
+	public void case2_ServiceStart() throws Exception {
 	
 		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);

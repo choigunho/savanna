@@ -21,10 +21,10 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.KafkaPage;
+import PageObject.ElasticsearchPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class KafkaStartStop {
+public class Elasticsearch {
 
 	String userId = AccountUtil.getUserId();
 	String pwd =  AccountUtil.getUserPwd();
@@ -38,63 +38,63 @@ public class KafkaStartStop {
 	}
 	
 	@Test
-	public void case1_KafkaServiceStop() throws Exception {
+	public void case1_ServiceStop() throws Exception {
 		
-		// Spark 페이지로 이동
+		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Kafka);
+		dashboard.serviceClick(Service.Elasticsearch);
 		
 		// 서비스 중지  
-		KafkaPage kafka = PageFactory.initElements(driver, KafkaPage.class);
-		kafka.stop();
+		ElasticsearchPage elasticSearch = PageFactory.initElements(driver, ElasticsearchPage.class);
+		elasticSearch.stop();
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.KafkaBroker, ServiceStatus.Stoped, driver);
+		dashboard.checkStatus(Component.Elasticsearch_MasterDataNode, ServiceStatus.Stoped, driver);
 		
 		// 프로세스 kill 확인
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep kafka";
+		String command = "ps -ef | grep elastic";
 		boolean bCheckExitCode = true;
-
-		List<String> hosts = dashboard.getHost(Component.KafkaBroker);
+		
+		List<String> hosts = dashboard.getHost(Component.Elasticsearch_MasterDataNode);
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getHOST_IP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(!result.contains(TestVar.KAFKA_BROKER_PROCESS_CMD));
+			assertTrue(!result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
 		}
 		
 	}
 	
 	@Test
-	public void case2_KafkaServiceStart() throws Exception {
+	public void case2_ServiceStart() throws Exception {
 
-		// Spark 페이지로 이동
+		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Kafka);
+		dashboard.serviceClick(Service.Elasticsearch);
 		
 		// 서비스 시작  
-		KafkaPage kafka = PageFactory.initElements(driver, KafkaPage.class);
-		kafka.start();
+		ElasticsearchPage elasticSearch = PageFactory.initElements(driver, ElasticsearchPage.class);
+		elasticSearch.start();
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.KafkaBroker, ServiceStatus.Started, driver);
+		dashboard.checkStatus(Component.Elasticsearch_MasterDataNode, ServiceStatus.Started, driver);
 		
-		// 프로세스 kill 확인
+		// 프로세스 running 확인
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep kafka";
+		String command = "ps -ef | grep elastic";
 		boolean bCheckExitCode = true;
-		
-		List<String> hosts = dashboard.getHost(Component.KafkaBroker);
+
+		List<String> hosts = dashboard.getHost(Component.Elasticsearch_MasterDataNode);
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getHOST_IP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(result.contains(TestVar.KAFKA_BROKER_PROCESS_CMD));
+			assertTrue(result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
 		}
 		
 	}

@@ -24,7 +24,7 @@ import PageObject.DashboardPage;
 import PageObject.HDFSPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class HDFSStartStop {
+public class HDFS {
 
 	String userId = AccountUtil.getUserId();
 	String pwd =  AccountUtil.getUserPwd();
@@ -38,7 +38,7 @@ public class HDFSStartStop {
 	}
 	
 //	@Test
-	public void case1_hdfsServiceStop() throws Exception {
+	public void case1_ServiceStop() throws Exception {
 		
 		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
@@ -84,7 +84,7 @@ public class HDFSStartStop {
 	}
 	
 //	@Test
-	public void case2_hdfsServiceStart() throws Exception {
+	public void case2_ServiceStart() throws Exception {
 		
 		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);

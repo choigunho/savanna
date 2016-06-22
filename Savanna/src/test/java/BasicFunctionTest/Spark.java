@@ -1,7 +1,6 @@
 package BasicFunctionTest;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -21,10 +20,10 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.MapReduce2Page;
+import PageObject.SparkPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MapReduce2StartStop {
+public class Spark {
 
 	String userId = AccountUtil.getUserId();
 	String pwd =  AccountUtil.getUserPwd();
@@ -37,59 +36,59 @@ public class MapReduce2StartStop {
 		driver = AccountUtil.login(userId, pwd);
 	}
 	
-	
 	@Test
-	public void case1_MapReduce2ServiceStop() throws Exception {
+	public void case1_ServiceStop() throws Exception {
 		
-		// 페이지 이동
+		// Spark 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.MapReduce2);
+		dashboard.serviceClick(Service.Spark);
 		
 		// 서비스 중지  
-		MapReduce2Page mapReduce2 = PageFactory.initElements(driver, MapReduce2Page.class);
-		mapReduce2.stop();
+		SparkPage spark = PageFactory.initElements(driver, SparkPage.class);
+		spark.stop();
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.MapReduce2_HistoryServer, ServiceStatus.Stoped, driver);
+		dashboard.checkStatus(Component.SparkHistoryServer, ServiceStatus.Stoped, driver);
 		
 		// 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.MapReduce2_HistoryServer);
+		List<String> hosts = dashboard.getHost(Component.SparkHistoryServer);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep mapreduce";
+		String command = "ps -ef | grep spark";
 		boolean bCheckExitCode = true;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(!result.contains(TestVar.HISTORY_SERVER_PROCESS_CMD));
+		assertTrue(!result.contains(TestVar.SPARK_HISTORY_SERVER_PROCESS_CMD));
+
 	}
 	
 	@Test
-	public void case2_MapReduce2ServiceStart() throws Exception {
-
-		// 페이지 이동
+	public void case2_ServiceStart() throws Exception {
+	
+		// Spark 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.MapReduce2);
+		dashboard.serviceClick(Service.Spark);
 		
 		// 서비스 시작  
-		MapReduce2Page mapReduce2 = PageFactory.initElements(driver, MapReduce2Page.class);
-		mapReduce2.start();
+		SparkPage spark = PageFactory.initElements(driver, SparkPage.class);
+		spark.start();
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.MapReduce2_HistoryServer, ServiceStatus.Started, driver);
+		dashboard.checkStatus(Component.SparkHistoryServer, ServiceStatus.Started, driver);
 		
 		// 프로세스 running 확인
-		List<String> hosts = dashboard.getHost(Component.MapReduce2_HistoryServer);
+		List<String> hosts = dashboard.getHost(Component.SparkHistoryServer);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep mapreduce";
+		String command = "ps -ef | grep spark";
 		boolean bCheckExitCode = true;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(result.contains(TestVar.HISTORY_SERVER_PROCESS_CMD));
+		assertTrue(result.contains(TestVar.SPARK_HISTORY_SERVER_PROCESS_CMD));
 	}
 	
 	@After

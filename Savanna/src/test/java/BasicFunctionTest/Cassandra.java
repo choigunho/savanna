@@ -24,7 +24,7 @@ import PageObject.CassandraPage;
 import PageObject.DashboardPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CassandraStartStop {
+public class Cassandra {
 
 	String userId = AccountUtil.getUserId();
 	String pwd =  AccountUtil.getUserPwd();
@@ -40,7 +40,7 @@ public class CassandraStartStop {
 	
 	
 	@Test
-	public void case1_CassandraServiceStop() throws Exception {
+	public void case1_ServiceStop() throws Exception {
 		
 		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
@@ -77,7 +77,7 @@ public class CassandraStartStop {
 	}
 	
 	@Test
-	public void case2_CassandraServiceStart() throws Exception {
+	public void case2_ServiceStart() throws Exception {
 
 		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);

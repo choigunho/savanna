@@ -21,10 +21,10 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.ElasticsearchPage;
+import PageObject.LivyPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ElasticsearchStartStop {
+public class Livy {
 
 	String userId = AccountUtil.getUserId();
 	String pwd =  AccountUtil.getUserPwd();
@@ -37,65 +37,60 @@ public class ElasticsearchStartStop {
 		driver = AccountUtil.login(userId, pwd);
 	}
 	
+	
 	@Test
-	public void case1_ElasticsearchServiceStop() throws Exception {
+	public void case1_ServiceStop() throws Exception {
 		
 		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Elasticsearch);
+		dashboard.serviceClick(Service.Livy);
 		
 		// 서비스 중지  
-		ElasticsearchPage elasticSearch = PageFactory.initElements(driver, ElasticsearchPage.class);
-		elasticSearch.stop();
+		LivyPage livy = PageFactory.initElements(driver, LivyPage.class);
+		livy.stop();
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.Elasticsearch_MasterDataNode, ServiceStatus.Stoped, driver);
+		dashboard.checkStatus(Component.Livy_SparkRestServer, ServiceStatus.Stoped, driver);
 		
 		// 프로세스 kill 확인
+		List<String> hosts = dashboard.getHost(Component.Livy_SparkRestServer);
+		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep elastic";
+		String command = "ps -ef | grep livy";
 		boolean bCheckExitCode = true;
 		
-		List<String> hosts = dashboard.getHost(Component.Elasticsearch_MasterDataNode);
-		for(int i=0; i<hosts.size(); i++) {
-			String host = TestEnv.getHOST_IP(hosts.get(i));
-			
-			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(!result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
-		}
+		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
+		assertTrue(!result.contains(TestVar.LIVY_SPARK_REST_SERVER_PROCESS_CMD));
 		
 	}
 	
 	@Test
-	public void case2_ElasticsearchServiceStart() throws Exception {
+	public void case2_ServiceStart() throws Exception {
 
 		// 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Elasticsearch);
+		dashboard.serviceClick(Service.Livy);
 		
 		// 서비스 시작  
-		ElasticsearchPage elasticSearch = PageFactory.initElements(driver, ElasticsearchPage.class);
-		elasticSearch.start();
+		LivyPage livy = PageFactory.initElements(driver, LivyPage.class);
+		livy.start();
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.Elasticsearch_MasterDataNode, ServiceStatus.Started, driver);
-		
+		dashboard.checkStatus(Component.Livy_SparkRestServer, ServiceStatus.Started, driver);
+				
 		// 프로세스 running 확인
+		List<String> hosts = dashboard.getHost(Component.Livy_SparkRestServer);
+		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep elastic";
+		String command = "ps -ef | grep livy";
 		boolean bCheckExitCode = true;
-
-		List<String> hosts = dashboard.getHost(Component.Elasticsearch_MasterDataNode);
-		for(int i=0; i<hosts.size(); i++) {
-			String host = TestEnv.getHOST_IP(hosts.get(i));
-			
-			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
-		}
+		
+		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
+		assertTrue(result.contains(TestVar.LIVY_SPARK_REST_SERVER_PROCESS_CMD));
 		
 	}
 	
