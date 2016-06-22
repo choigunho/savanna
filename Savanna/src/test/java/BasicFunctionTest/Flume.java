@@ -51,7 +51,7 @@ public class Flume {
 		boolean bCheckExitCode = true;
 		
 		for(int i=0; i<hosts.size(); i++) {
-			String host = TestEnv.getHOST_IP(hosts.get(i));
+			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 			assertTrue("process is not killed!", !result.contains(TestVar.FLUME_PROCESS_CMD));
@@ -74,7 +74,7 @@ public class Flume {
 		boolean bCheckExitCode = true;
 		
 		for(int i=0; i<hosts.size(); i++) {
-			String host = TestEnv.getHOST_IP(hosts.get(i));
+			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 			assertTrue(result.contains(TestVar.FLUME_PROCESS_CMD));

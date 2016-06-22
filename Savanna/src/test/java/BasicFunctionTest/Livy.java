@@ -50,7 +50,7 @@ public class Livy {
 		
 		// 프로세스 kill 확인
 		List<String> hosts = service.getHost(Component.Livy_SparkRestServer);
-		String host = TestEnv.getHOST_IP(hosts.get(0));
+		String host = TestEnv.getIP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
@@ -73,7 +73,7 @@ public class Livy {
 				
 		// 프로세스 running 확인
 		List<String> hosts = service.getHost(Component.Livy_SparkRestServer);
-		String host = TestEnv.getHOST_IP(hosts.get(0));
+		String host = TestEnv.getIP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();

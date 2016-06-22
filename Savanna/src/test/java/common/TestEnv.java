@@ -6,7 +6,7 @@ public class TestEnv {
 
 	static ResourceBundle rb = ResourceBundle.getBundle("UserSetting");
 	
-	public static String getHOST_IP(String host) {
+	public static String getIP(String host) {
 		System.out.println("host: " + host);
 		return rb.getString(host);
 	}

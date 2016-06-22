@@ -56,7 +56,7 @@ public class Elasticsearch {
 		
 		List<String> hosts = service.getHost(Component.Elasticsearch_MasterDataNode);
 		for(int i=0; i<hosts.size(); i++) {
-			String host = TestEnv.getHOST_IP(hosts.get(i));
+			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 			assertTrue(!result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
@@ -82,7 +82,7 @@ public class Elasticsearch {
 
 		List<String> hosts = service.getHost(Component.Elasticsearch_MasterDataNode);
 		for(int i=0; i<hosts.size(); i++) {
-			String host = TestEnv.getHOST_IP(hosts.get(i));
+			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 			assertTrue(result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));

@@ -49,7 +49,7 @@ public class Cassandra {
 		
 		// cassandra seed node 프로세스 kill 확인
 		List<String> hosts = service.getHost(Component.Cassandra_SeedNode);
-		String host = TestEnv.getHOST_IP(hosts.get(0));
+		String host = TestEnv.getIP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
@@ -64,7 +64,7 @@ public class Cassandra {
 		
 		// 프로메테우스 S-Casmo 프로세스 kill 확인
 		hosts = service.getHost(Component.Cassandra_Prometheus);
-		host = TestEnv.getHOST_IP(hosts.get(0));
+		host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(!result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
 		
@@ -81,7 +81,7 @@ public class Cassandra {
 		
 		// cassandra seed node 프로세스 running 확인
 		List<String> hosts = service.getHost(Component.Cassandra_SeedNode);
-		String host = TestEnv.getHOST_IP(hosts.get(0));
+		String host = TestEnv.getIP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
@@ -96,7 +96,7 @@ public class Cassandra {
 		
 		// 프로메테우스 S-Casmo 프로세스 running 확인
 		 hosts = service.getHost(Component.Cassandra_Prometheus);
-		 host = TestEnv.getHOST_IP(hosts.get(0));
+		 host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
 	}

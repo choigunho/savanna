@@ -30,14 +30,6 @@ public class AccountUtil {
 		WebDriverWait wait = new WebDriverWait(driver, Wait.FiveSecond);
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("nav-services"))); 
 		
-		// 서비스 페이지에서 호스트 정보를 알아올 때 title 속성값이 없는 경우가 있음.(title 속성값은 시스템에 접근할 때 사용한다)
-		// 그런데 다른 페이지를 갔다 돌아오면 title 속성값이 채워져 있음.
-		// 해결책) 로그인 후, 호스트 페이지 로드, 다시 대시보드 페이지 로드
-		driver.navigate().to(getSavannaManagerUrl() + "/#/main/hosts"); 
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("page-bar")));
-		driver.navigate().to(getSavannaManagerUrl() + "/#/main/dashboard/metrics"); 
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("nav-services")));
-		
 		return driver;
 	}
 	

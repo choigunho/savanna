@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import common.AccountUtil;
 import common.CommonConstant.Component;
 import common.CommonConstant.Sleep;
 import common.CommonConstant.Wait;
@@ -226,10 +227,19 @@ public class ServicePage {
 	}
 	
 	public List<String> getHost(String component) throws Exception {
+		
+		// 서비스 페이지에서 호스트 정보를 알아올 때 title 속성값이 없는 경우가 있음.(title 속성값은 시스템에 접근할 때 사용한다)
+		// 그런데 다른 페이지를 갔다 돌아오면 title 속성값이 채워져 있음.
+		// 해결책) 호스트 페이지 로드 후 다시 대시보드 페이지 복귀
+		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
+		driver.navigate().to(AccountUtil.getSavannaManagerUrl() + "/#/main/hosts"); 
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("page-bar")));
+		driver.navigate().to(AccountUtil.getSavannaManagerUrl() + "/#/main/services"); 
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("nav-services")));
+		Thread.sleep(3000);
+				
 		List<String> hosts = new ArrayList<String>();
 		List<WebElement> label = null ;
-		
-		WebDriverWait wait = new WebDriverWait(driver, Wait.FiveSecond);
 		
 		switch(component) {
 			case Component.HDFS_NameNode: label = label_for_namenode; break;
@@ -242,7 +252,6 @@ public class ServicePage {
 				label = getDataNodeHosts(component); 
 				break;
 			case Component.MapReduce2_HistoryServer: 
-//				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_historyserver));
 				label = label_for_historyserver; break;
 			case Component.YARN_AppTimelineServer: 
 				label = label_for_app_timeline_server; 
@@ -257,10 +266,8 @@ public class ServicePage {
 				break;
 			case Component.AmbariMetricsCollector: label = label_for_metrics_collector; break;
 			case Component.Cassandra_SeedNode: 
-//				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_cassandraseednode));
 				label = label_for_cassandraseednode; break;
 			case Component.Cassandra_Prometheus: 
-//				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_prometheus));
 				label = label_for_prometheus; break;
 			case Component.Elasticsearch_MasterDataNode:
 				label = label_for_master_data_node; break;
@@ -271,6 +278,7 @@ public class ServicePage {
 		
 		//test
 		System.out.println("[test] label: " + label);
+		System.out.println("[test] label: " + label.get(0).findElement(By.tagName("a")).getAttribute("title"));
 		
 		if(component.equals(Component.Flume) || component.equals(Component.HDFS_DataNode)) {
 			for(int i=0; i<label.size(); i++) {

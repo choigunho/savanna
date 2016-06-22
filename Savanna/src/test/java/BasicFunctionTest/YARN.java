@@ -48,7 +48,7 @@ public class YARN {
 		service.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Stoped, driver);
 		// 프로세스 kill 확인
 		List<String> hosts = service.getHost(Component.YARN_AppTimelineServer);
-		String host = TestEnv.getHOST_IP(hosts.get(0));
+		String host = TestEnv.getIP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
@@ -61,7 +61,7 @@ public class YARN {
 		service.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Stoped, driver);
 		// 프로세스 kill 확인
 		hosts = service.getHost(Component.YARN_ResourceManager);
-		host = TestEnv.getHOST_IP(hosts.get(0));
+		host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(!result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
 		
@@ -77,7 +77,7 @@ public class YARN {
 		service.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Started, driver);
 		// 프로세스 kill 확인
 		List<String> hosts = service.getHost(Component.YARN_AppTimelineServer);
-		String host = TestEnv.getHOST_IP(hosts.get(0));
+		String host = TestEnv.getIP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
@@ -90,7 +90,7 @@ public class YARN {
 		service.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Started, driver);
 		// 프로세스 kill 확인
 		hosts = service.getHost(Component.YARN_ResourceManager);
-		host = TestEnv.getHOST_IP(hosts.get(0));
+		host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
 		

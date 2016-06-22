@@ -48,7 +48,7 @@ public class HDFS {
 		service.checkStatus(Component.HDFS_NameNode, ServiceStatus.Stoped, driver);
 		// 네임노드 프로세스 kill 확인
 		List<String> hosts = service.getHost(Component.HDFS_NameNode);
-		String host = TestEnv.getHOST_IP(hosts.get(0));
+		String host = TestEnv.getIP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
@@ -61,7 +61,7 @@ public class HDFS {
 		service.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Stoped, driver);
 		// Secondary 네임노드 프로세스 kill 확인
 		hosts = service.getHost(Component.HDFS_SecondaryNamenode);
-		host = TestEnv.getHOST_IP(hosts.get(0));
+		host = TestEnv.getIP(hosts.get(0));
 		command = "ps -ef | grep namenode";
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(!result.contains(TestVar.HDFS_SECONDARY_NAME_NODE_CMD));
@@ -70,7 +70,7 @@ public class HDFS {
 		hosts = service.getHost(Component.HDFS_DataNode);
 		command = "ps -ef | grep datanode";
 		for(int i=0; i<hosts.size(); i++) {
-			host = TestEnv.getHOST_IP(hosts.get(i));
+			host = TestEnv.getIP(hosts.get(i));
 			
 			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 			assertTrue(!result.contains(TestVar.HDFS_DATA_NODE_CMD));
@@ -87,7 +87,7 @@ public class HDFS {
 		service.checkStatus(Component.HDFS_NameNode, ServiceStatus.Started, driver);
 		// 프로세스 running 확인
 		List<String> hosts = service.getHost(Component.HDFS_NameNode);
-		String host = TestEnv.getHOST_IP(hosts.get(0));
+		String host = TestEnv.getIP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
@@ -100,7 +100,7 @@ public class HDFS {
 		service.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Started, driver);
 		// 프로세스 running 확인
 		hosts = service.getHost(Component.HDFS_SecondaryNamenode);
-		host = TestEnv.getHOST_IP(hosts.get(0));
+		host = TestEnv.getIP(hosts.get(0));
 		command = "ps -ef | grep namenode";
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(result.contains(TestVar.HDFS_SECONDARY_NAME_NODE_CMD));
@@ -109,7 +109,7 @@ public class HDFS {
 		hosts = service.getHost(Component.HDFS_DataNode);
 		command = "ps -ef | grep datanode";
 		for(int i=0; i<hosts.size(); i++) {
-			host = TestEnv.getHOST_IP(hosts.get(i));
+			host = TestEnv.getIP(hosts.get(i));
 			
 			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 			assertTrue(result.contains(TestVar.HDFS_DATA_NODE_CMD));
