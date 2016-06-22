@@ -121,7 +121,7 @@ public class HDFS {
 		driver.quit();
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
-			fail(verificationErrorString);
+			fail("fail message: " + verificationErrorString);
 		}
 	}
 	

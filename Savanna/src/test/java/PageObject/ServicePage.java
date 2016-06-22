@@ -28,80 +28,80 @@ public class ServicePage {
 	WebElement btn_success;
 	
 	// mapreduce2
-		@FindBy(how=How.CLASS_NAME, using="label_for_historyserver")
-		List<WebElement> label_for_historyserver;
-		@FindBy(how=How.CLASS_NAME, using="value_for_historyserver")
-		List<WebElement> value_for_historyserver;
-		
-		// yarn
-		@FindBy(how=How.CLASS_NAME, using="label_for_app_timeline_server")
-		List<WebElement> label_for_app_timeline_server;
-		@FindBy(how=How.CLASS_NAME, using="value_for_app_timeline_server")
-		List<WebElement> value_for_app_timeline_server;
-		@FindBy(how=How.CLASS_NAME, using="label_for_resourcemanager")
-		List<WebElement> label_for_resourcemanager;
-		@FindBy(how=How.CLASS_NAME, using="value_for_resourcemanager")
-		List<WebElement> value_for_resourcemanager;
-		
-		// zookeeper
-		@FindBy(how=How.CLASS_NAME, using="label_for_zookeeper_server")
-		List<WebElement> label_for_zookeeper_server;
-		@FindBy(how=How.CLASS_NAME, using="value_for_zookeeper_server")
-		List<WebElement> value_for_zookeeper_server;
-		
-		// spark
-		@FindBy(how=How.CLASS_NAME, using="label_for_spark_jobhistoryserver")
-		List<WebElement> label_for_spark_jobhistoryserver;
-		@FindBy(how=How.CLASS_NAME, using="value_for_spark_jobhistoryserver")
-		List<WebElement> value_for_spark_jobhistoryserver;
-		
-		//livy
-		@FindBy(how=How.CLASS_NAME, using="label_for_livy_sparkrestserver")
-		List<WebElement> label_for_livy_sparkrestserver;
-		@FindBy(how=How.CLASS_NAME, using="value_for_livy_sparkrestserver")
-		List<WebElement> value_for_livy_sparkrestserver;
-		
-		//cassandra
-		@FindBy(how=How.CLASS_NAME, using="label_for_cassandraseednode")
-		List<WebElement> label_for_cassandraseednode;
-		@FindBy(how=How.CLASS_NAME, using="value_for_cassandraseednode")
-		List<WebElement> value_for_cassandraseednode;
-		@FindBy(how=How.CLASS_NAME, using="label_for_prometheus")
-		List<WebElement> label_for_prometheus;
-		@FindBy(how=How.CLASS_NAME, using="value_for_prometheus")
-		List<WebElement> value_for_prometheus;
-		
-		//ambaric metrics collector
-		@FindBy(how=How.CLASS_NAME, using="label_for_metrics_collector")
-		List<WebElement> label_for_metrics_collector;
-		@FindBy(how=How.CLASS_NAME, using="value_for_metrics_collector")
-		List<WebElement> value_for_metrics_collector;
-		
-		//kafka
-		@FindBy(how=How.CLASS_NAME, using="label_for_kafka_broker")
-		List<WebElement> label_for_kafka_broker;
-		@FindBy(how=How.CLASS_NAME, using="value_for_kafka_broker")
-		List<WebElement> value_for_kafka_broker;
-		
-		//elasticsearch
-		@FindBy(how=How.CLASS_NAME, using="label_for_master_data_node")
-		List<WebElement> label_for_master_data_node;
-		@FindBy(how=How.CLASS_NAME, using="value_for_master_data_node")
-		List<WebElement> value_for_master_data_node;
-		
-		//hdfs
-		@FindBy(how=How.CLASS_NAME, using="label_for_namenode")
-		List<WebElement> label_for_namenode;
-		@FindBy(how=How.CLASS_NAME, using="value_for_namenode")
-		List<WebElement> value_for_namenode;
-		@FindBy(how=How.CLASS_NAME, using="label_for_secondary_namenode")
-		List<WebElement> label_for_secondary_namenode;
-		@FindBy(how=How.CLASS_NAME, using="value_for_secondary_namenode")
-		List<WebElement> value_for_secondary_namenode;
-		
-		// flume
-		@FindBy(how=How.ID, using="flume-summary")
-		WebElement flume_summary;
+	@FindBy(how=How.CLASS_NAME, using="label_for_historyserver")
+	List<WebElement> label_for_historyserver;
+	@FindBy(how=How.CLASS_NAME, using="value_for_historyserver")
+	List<WebElement> value_for_historyserver;
+	
+	// yarn
+	@FindBy(how=How.CLASS_NAME, using="label_for_app_timeline_server")
+	List<WebElement> label_for_app_timeline_server;
+	@FindBy(how=How.CLASS_NAME, using="value_for_app_timeline_server")
+	List<WebElement> value_for_app_timeline_server;
+	@FindBy(how=How.CLASS_NAME, using="label_for_resourcemanager")
+	List<WebElement> label_for_resourcemanager;
+	@FindBy(how=How.CLASS_NAME, using="value_for_resourcemanager")
+	List<WebElement> value_for_resourcemanager;
+	
+	// zookeeper
+	@FindBy(how=How.CLASS_NAME, using="label_for_zookeeper_server")
+	List<WebElement> label_for_zookeeper_server;
+	@FindBy(how=How.CLASS_NAME, using="value_for_zookeeper_server")
+	List<WebElement> value_for_zookeeper_server;
+	
+	// spark
+	@FindBy(how=How.CLASS_NAME, using="label_for_spark_jobhistoryserver")
+	List<WebElement> label_for_spark_jobhistoryserver;
+	@FindBy(how=How.CLASS_NAME, using="value_for_spark_jobhistoryserver")
+	List<WebElement> value_for_spark_jobhistoryserver;
+	
+	//livy
+	@FindBy(how=How.CLASS_NAME, using="label_for_livy_sparkrestserver")
+	List<WebElement> label_for_livy_sparkrestserver;
+	@FindBy(how=How.CLASS_NAME, using="value_for_livy_sparkrestserver")
+	List<WebElement> value_for_livy_sparkrestserver;
+	
+	//cassandra
+	@FindBy(how=How.CLASS_NAME, using="label_for_cassandraseednode")
+	List<WebElement> label_for_cassandraseednode;
+	@FindBy(how=How.CLASS_NAME, using="value_for_cassandraseednode")
+	List<WebElement> value_for_cassandraseednode;
+	@FindBy(how=How.CLASS_NAME, using="label_for_prometheus")
+	List<WebElement> label_for_prometheus;
+	@FindBy(how=How.CLASS_NAME, using="value_for_prometheus")
+	List<WebElement> value_for_prometheus;
+	
+	//ambaric metrics collector
+	@FindBy(how=How.CLASS_NAME, using="label_for_metrics_collector")
+	List<WebElement> label_for_metrics_collector;
+	@FindBy(how=How.CLASS_NAME, using="value_for_metrics_collector")
+	List<WebElement> value_for_metrics_collector;
+	
+	//kafka
+	@FindBy(how=How.CLASS_NAME, using="label_for_kafka_broker")
+	List<WebElement> label_for_kafka_broker;
+	@FindBy(how=How.CLASS_NAME, using="value_for_kafka_broker")
+	List<WebElement> value_for_kafka_broker;
+	
+	//elasticsearch
+	@FindBy(how=How.CLASS_NAME, using="label_for_master_data_node")
+	List<WebElement> label_for_master_data_node;
+	@FindBy(how=How.CLASS_NAME, using="value_for_master_data_node")
+	List<WebElement> value_for_master_data_node;
+	
+	//hdfs
+	@FindBy(how=How.CLASS_NAME, using="label_for_namenode")
+	List<WebElement> label_for_namenode;
+	@FindBy(how=How.CLASS_NAME, using="value_for_namenode")
+	List<WebElement> value_for_namenode;
+	@FindBy(how=How.CLASS_NAME, using="label_for_secondary_namenode")
+	List<WebElement> label_for_secondary_namenode;
+	@FindBy(how=How.CLASS_NAME, using="value_for_secondary_namenode")
+	List<WebElement> value_for_secondary_namenode;
+	
+	// flume
+	@FindBy(how=How.ID, using="flume-summary")
+	WebElement flume_summary;
 
 	public ServicePage(WebDriver driver) {
 		this.driver = driver;
@@ -186,14 +186,14 @@ public class ServicePage {
 		}
 	}
 	
-	public void checkStatus(final String target, final String expectedStatus, WebDriver driver) {
+	public void checkStatus(final String componentName, final String expectedStatus, WebDriver driver) {
 		
 		(new WebDriverWait(driver, Wait.Long)).until(new ExpectedCondition<Boolean>() {
 			List<WebElement> label = null;
 			List<WebElement> value = null;
 			
 			public Boolean apply(WebDriver d) {
-				switch(target) {
+				switch(componentName) {
 					case Component.HDFS_NameNode: label = label_for_namenode; value = value_for_namenode; break;
 					case Component.HDFS_SecondaryNamenode: label = label_for_secondary_namenode; value = value_for_secondary_namenode; break;
 					case Component.MapReduce2_HistoryServer: label = label_for_historyserver; value = value_for_historyserver; break;
@@ -217,7 +217,7 @@ public class ServicePage {
 				}
 
 				if(index == value.size()) {
-					System.out.println(label.get(0).getText() + " " + value.get(0).getText());
+					//System.out.println(label.get(0).getText() + " " + value.get(0).getText());
 					return true;
 				}
 				return false;
