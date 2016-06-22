@@ -171,7 +171,8 @@ public class DashboardPage {
 			case Component.MapReduce2_HistoryServer: 
 				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_historyserver));
 				label = label_for_historyserver; break;
-			case Component.YARN_AppTimelineServer: label = label_for_app_timeline_server; break;
+			case Component.YARN_AppTimelineServer: 
+				label = label_for_app_timeline_server; break;
 			case Component.YARN_ResourceManager: label = label_for_resourcemanager; break;
 			case Component.ZooKeeperServer: label = label_for_zookeeper_server; break;
 			case Component.Flume:
