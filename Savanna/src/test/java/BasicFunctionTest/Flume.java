@@ -19,7 +19,7 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import PageObject.DashboardPage;
-import PageObject.FlumePage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Flume {
@@ -43,8 +43,8 @@ public class Flume {
 		dashboard.serviceClick(Service.Flume);
 		
 		// 서비스 중지  
-		FlumePage flume = PageFactory.initElements(driver, FlumePage.class);
-		flume.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 프로세스 kill 확인
 		List<String> hosts = dashboard.getHost(Component.Flume);
@@ -58,8 +58,7 @@ public class Flume {
 			String host = TestEnv.getHOST_IP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			// !넣어야함
-			assertTrue(result.contains(TestVar.FLUME_PROCESS_CMD));
+			assertTrue("process is not killed!", !result.contains(TestVar.FLUME_PROCESS_CMD));
 		}
 		
 	}
@@ -72,8 +71,8 @@ public class Flume {
 		dashboard.serviceClick(Service.Flume);
 		
 		// 서비스 시작  
-		FlumePage flume = PageFactory.initElements(driver, FlumePage.class);
-		flume.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 프로세스 running 확인
 		List<String> hosts = dashboard.getHost(Component.Flume);

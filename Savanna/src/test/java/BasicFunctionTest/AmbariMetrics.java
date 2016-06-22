@@ -20,8 +20,8 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
-import PageObject.AmbariMetricsPage;
 import PageObject.DashboardPage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AmbariMetrics {
@@ -45,8 +45,8 @@ public class AmbariMetrics {
 		dashboard.serviceClick(Service.AmbariMetrics);
 		
 		// 서비스 중지  
-		AmbariMetricsPage ambariMetrics = PageFactory.initElements(driver, AmbariMetricsPage.class);
-		ambariMetrics.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.AmbariMetricsCollector, ServiceStatus.Stoped, driver);
@@ -73,8 +73,8 @@ public class AmbariMetrics {
 		dashboard.serviceClick(Service.AmbariMetrics);
 		
 		// 서비스 시작  
-		AmbariMetricsPage ambariMetrics = PageFactory.initElements(driver, AmbariMetricsPage.class);
-		ambariMetrics.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.AmbariMetricsCollector, ServiceStatus.Started, driver);

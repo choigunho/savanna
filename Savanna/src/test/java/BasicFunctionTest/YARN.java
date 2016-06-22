@@ -21,7 +21,7 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.YARNPage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class YARN {
@@ -45,8 +45,8 @@ public class YARN {
 		dashboard.serviceClick(Service.YARN);
 		
 		// 서비스 중지  
-		YARNPage yarn = PageFactory.initElements(driver, YARNPage.class);
-		yarn.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 앱 타임라인 서버 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Stoped, driver);
@@ -79,8 +79,8 @@ public class YARN {
 		dashboard.serviceClick(Service.YARN);
 		
 		// 서비스 시작  
-		YARNPage yarn = PageFactory.initElements(driver, YARNPage.class);
-		yarn.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 앱 타임라인 서버 문구 변경 확인
 		dashboard.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Started, driver);

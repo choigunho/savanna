@@ -108,6 +108,10 @@ public class DashboardPage {
 	@FindBy(how=How.CLASS_NAME, using="value_for_secondary_namenode")
 	List<WebElement> value_for_secondary_namenode;
 	
+	// flume
+	@FindBy(how=How.ID, using="flume-summary")
+	WebElement flume_summary;
+	
 	public DashboardPage(WebDriver driver) {
 		this.driver = driver;
 	}
@@ -170,7 +174,7 @@ public class DashboardPage {
 				label = getDataNodeHosts(component); 
 				break;
 			case Component.MapReduce2_HistoryServer: 
-				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_historyserver));
+//				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_historyserver));
 				label = label_for_historyserver; break;
 			case Component.YARN_AppTimelineServer: 
 				label = label_for_app_timeline_server; 
@@ -178,25 +182,27 @@ public class DashboardPage {
 			case Component.YARN_ResourceManager: label = label_for_resourcemanager; break;
 			case Component.ZooKeeperServer: label = label_for_zookeeper_server; break;
 			case Component.Flume:
-				driver.findElement(By.id("flume-summary")).findElement(By.tagName("a")).click();
+				flume_summary.findElement(By.tagName("a")).click();
 				wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
 				Thread.sleep(Sleep.TwoSecond);
 				label = getFlumeHosts(component); 
 				break;
 			case Component.AmbariMetricsCollector: label = label_for_metrics_collector; break;
 			case Component.Cassandra_SeedNode: 
-				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_cassandraseednode));
+//				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_cassandraseednode));
 				label = label_for_cassandraseednode; break;
 			case Component.Cassandra_Prometheus: 
-				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_prometheus));
+//				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_prometheus));
 				label = label_for_prometheus; break;
 			case Component.Elasticsearch_MasterDataNode:
-				wait.until(ExpectedConditions.visibilityOfAllElements(label_for_master_data_node));
 				label = label_for_master_data_node; break;
 			case Component.KafkaBroker: label = label_for_kafka_broker; break;
 			case Component.Livy_SparkRestServer: label = label_for_livy_sparkrestserver; break;
 			case Component.SparkHistoryServer: label = label_for_spark_jobhistoryserver; break;
 		}
+		
+		//test
+		System.out.println("[test] label: " + label);
 		
 		if(component.equals(Component.Flume) || component.equals(Component.HDFS_DataNode)) {
 			for(int i=0; i<label.size(); i++) {
@@ -219,14 +225,8 @@ public class DashboardPage {
 			
 			public Boolean apply(WebDriver d) {
 				switch(target) {
-					case Component.HDFS_NameNode: 
-						label = d.findElements(By.className("label_for_namenode"));
-						value = d.findElements(By.className("value_for_namenode"));
-						break;
-					case Component.HDFS_SecondaryNamenode: 
-						label = label_for_secondary_namenode; 
-						value = value_for_secondary_namenode; 
-						break;
+					case Component.HDFS_NameNode: label = label_for_namenode; value = value_for_namenode; break;
+					case Component.HDFS_SecondaryNamenode: label = label_for_secondary_namenode; value = value_for_secondary_namenode; break;
 					case Component.MapReduce2_HistoryServer: label = label_for_historyserver; value = value_for_historyserver; break;
 					case Component.YARN_AppTimelineServer: label = label_for_app_timeline_server; value = value_for_app_timeline_server; break;
 					case Component.YARN_ResourceManager: label = label_for_resourcemanager; value = value_for_resourcemanager; break;
@@ -241,16 +241,11 @@ public class DashboardPage {
 				}
 				
 				int index = 0;
-				if(!value.isEmpty() && !label.isEmpty()) {
-					for(WebElement we : value) {
-						//System.out.println(we.getText());
-						if(we.getText().equals(expectedStatus)) {
-							index++;
-						}
-//						System.out.println(label.get(0).getText() + " " + value.get(0).getText());
+				for(WebElement we : value) {
+					if(we.getText().equals(expectedStatus)) {
+						index++;
 					}
 				}
-				
 
 				if(index == value.size()) {
 					System.out.println(label.get(0).getText() + " " + value.get(0).getText());

@@ -21,7 +21,7 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.ZooKeeperPage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ZooKeeper {
@@ -45,8 +45,8 @@ public class ZooKeeper {
 		dashboard.serviceClick(Service.ZooKeeper);
 		
 		// 서비스 중지  
-		ZooKeeperPage yarn = PageFactory.initElements(driver, ZooKeeperPage.class);
-		yarn.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.ZooKeeperServer, ServiceStatus.Stoped, driver);
@@ -73,8 +73,8 @@ public class ZooKeeper {
 		dashboard.serviceClick(Service.ZooKeeper);
 		
 		// 서비스 시작  
-		ZooKeeperPage yarn = PageFactory.initElements(driver, ZooKeeperPage.class);
-		yarn.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.ZooKeeperServer, ServiceStatus.Started, driver);

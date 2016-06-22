@@ -1,7 +1,5 @@
 package PageObject;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,50 +15,43 @@ public class HDFSPage {
 	WebDriver driver;
 	
 	@FindBy(how=How.ID, using="service-actions-dropdown-btn")
-	WebElement serviceAction;
+	WebElement service_actions_dropdown_btn;
 	@FindBy(how=How.CSS, using="ul.pull-right.dropdown-menu")
-	WebElement menu;
+	WebElement dropdown_menu;
 	@FindBy(how=How.CSS, using="button.btn.btn-success")
-	WebElement confirm;
-	@FindBy(how=How.CLASS_NAME, using="datanode-count")  
-	WebElement datanodecount;
-	
+	WebElement btn_success;
 	
 	public HDFSPage(WebDriver driver) {
 		this.driver = driver;
 	}
 	
 	public void start() throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, 20);
+		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
 		// 서비스 동작 버튼 클릭
-		serviceAction.click();
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("service-actions-dropdown-btn")));
+		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
 		
 		// 시작 선택
-		List<WebElement> elements = menu.findElements(By.cssSelector("li"));
-		wait.until(ExpectedConditions.attributeToBe(elements.get(0).findElement(By.tagName("i")), "class", "icon-play enabled"));
-		elements.get(0).click();
+		WebElement we = dropdown_menu.findElements(By.cssSelector("li")).get(0);
+		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-play enabled"));
+		we.click();
 		
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("btn-success"))); 
-		confirm.click();
+		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
 		
 	}
-	
+
 	public void stop() throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, Wait.FiveSecond);
+		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
 		// 서비스 동작 버튼 클릭
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("service-actions-dropdown-btn")));
-		serviceAction.click();
+		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
 		
-		// 중지 선택
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("ul.pull-right.dropdown-menu")));
-		List<WebElement> elements = menu.findElements(By.cssSelector("li"));
-		elements.get(1).click();
+		// 시작 선택
+		WebElement we = dropdown_menu.findElements(By.cssSelector("li")).get(1);
+		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-stop enabled"));
+		we.click();
 		
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("btn-success")));
-		confirm.click();
+		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
 		
 	}
 		

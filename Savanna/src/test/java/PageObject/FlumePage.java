@@ -1,7 +1,5 @@
 package PageObject;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,20 +26,18 @@ public class FlumePage {
 	}
 	
 	public void start() throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, 20);
+		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
 		// 서비스 동작 버튼 클릭
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("service-actions-dropdown-btn")));
-		service_actions_dropdown_btn.click();
+		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
 
 		// 시작 선택
-		List<WebElement> elements = dropdown_menu.findElements(By.cssSelector("li"));
-		wait.until(ExpectedConditions.attributeToBe(elements.get(0).findElement(By.tagName("i")), "class", "icon-play enabled"));
-		elements.get(0).click();
+		WebElement we = dropdown_menu.findElements(By.cssSelector("li")).get(0);
+		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-play enabled"));
+		we.click();
 		
 		// 최종 확인
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("btn-success"))); 
-		btn_success.click();
+		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
 		
 	}
 	
@@ -49,17 +45,15 @@ public class FlumePage {
 		WebDriverWait wait = new WebDriverWait(driver, Wait.FiveSecond);
 		
 		// 서비스 동작 버튼 클릭
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("service-actions-dropdown-btn")));
-		service_actions_dropdown_btn.click();
+		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();;
 		
 		// 중지 선택
-		List<WebElement> elements = dropdown_menu.findElements(By.cssSelector("li"));
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("ul.pull-right.dropdown-menu")));
-		elements.get(1).click();
+		WebElement we = dropdown_menu.findElements(By.cssSelector("li")).get(1);
+		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-stop enabled"));
+		we.click();
 		
 		// 최종 확인
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("btn-success"))); 
-		btn_success.click();
+		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
 		
 	}
 

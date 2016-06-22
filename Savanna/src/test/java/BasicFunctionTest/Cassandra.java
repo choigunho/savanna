@@ -20,8 +20,8 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
-import PageObject.CassandraPage;
 import PageObject.DashboardPage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Cassandra {
@@ -47,8 +47,8 @@ public class Cassandra {
 		dashboard.serviceClick(Service.Cassandra);
 		
 		// 서비스 중지  
-		CassandraPage cassandra = PageFactory.initElements(driver, CassandraPage.class);
-		cassandra.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// cassandra seed node 문구 변경 확인
 		dashboard.checkStatus(Component.Cassandra_SeedNode, ServiceStatus.Stoped, driver);
@@ -84,8 +84,8 @@ public class Cassandra {
 		dashboard.serviceClick(Service.Cassandra);
 		
 		// 서비스 시작  
-		CassandraPage cassandra = PageFactory.initElements(driver, CassandraPage.class);
-		cassandra.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// cassandra seed node 문구 변경 확인
 		dashboard.checkStatus(Component.Cassandra_SeedNode, ServiceStatus.Started, driver);

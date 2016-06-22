@@ -21,7 +21,7 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.HDFSPage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HDFS {
@@ -37,7 +37,7 @@ public class HDFS {
 		driver = AccountUtil.login(userId, pwd);
 	}
 	
-//	@Test
+	@Test
 	public void case1_ServiceStop() throws Exception {
 		
 		// 페이지 이동
@@ -45,10 +45,8 @@ public class HDFS {
 		dashboard.serviceClick(Service.HDFS);
 		
 		// 서비스 중지  
-		HDFSPage hdfs = PageFactory.initElements(driver, HDFSPage.class);
-		hdfs.stop();
-		
-//		Thread.sleep(Sleep.ThirtySecond);
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 네임노드 문구 변경 확인
 		dashboard.checkStatus(Component.HDFS_NameNode, ServiceStatus.Stoped, driver);
@@ -83,7 +81,7 @@ public class HDFS {
 		}
 	}
 	
-//	@Test
+	@Test
 	public void case2_ServiceStart() throws Exception {
 		
 		// 페이지 이동
@@ -91,14 +89,12 @@ public class HDFS {
 		dashboard.serviceClick(Service.HDFS);
 		
 		// 서비스 시작  
-		HDFSPage hdfs = PageFactory.initElements(driver, HDFSPage.class);
-		hdfs.start();
-		
-//		Thread.sleep(Sleep.SixtySecond);
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 네임노드 문구 변경 확인
 		dashboard.checkStatus(Component.HDFS_NameNode, ServiceStatus.Started, driver);
-		// 네임노드 프로세스 running 확인
+		// 프로세스 running 확인
 		List<String> hosts = dashboard.getHost(Component.HDFS_NameNode);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
@@ -111,7 +107,7 @@ public class HDFS {
 		
 		// Secondary 네임노드 문구 변경 확인
 		dashboard.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Started, driver);
-		// Secondary 네임노드 프로세스 running 확인
+		// 프로세스 running 확인
 		hosts = dashboard.getHost(Component.HDFS_SecondaryNamenode);
 		host = TestEnv.getHOST_IP(hosts.get(0));
 		command = "ps -ef | grep namenode";

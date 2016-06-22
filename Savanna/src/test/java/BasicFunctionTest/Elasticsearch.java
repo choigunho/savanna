@@ -21,7 +21,7 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.ElasticsearchPage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Elasticsearch {
@@ -45,8 +45,8 @@ public class Elasticsearch {
 		dashboard.serviceClick(Service.Elasticsearch);
 		
 		// 서비스 중지  
-		ElasticsearchPage elasticSearch = PageFactory.initElements(driver, ElasticsearchPage.class);
-		elasticSearch.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.Elasticsearch_MasterDataNode, ServiceStatus.Stoped, driver);
@@ -76,8 +76,8 @@ public class Elasticsearch {
 		dashboard.serviceClick(Service.Elasticsearch);
 		
 		// 서비스 시작  
-		ElasticsearchPage elasticSearch = PageFactory.initElements(driver, ElasticsearchPage.class);
-		elasticSearch.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.Elasticsearch_MasterDataNode, ServiceStatus.Started, driver);

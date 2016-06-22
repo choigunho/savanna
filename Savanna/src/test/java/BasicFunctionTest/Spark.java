@@ -20,7 +20,7 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.SparkPage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Spark {
@@ -44,8 +44,8 @@ public class Spark {
 		dashboard.serviceClick(Service.Spark);
 		
 		// 서비스 중지  
-		SparkPage spark = PageFactory.initElements(driver, SparkPage.class);
-		spark.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.SparkHistoryServer, ServiceStatus.Stoped, driver);
@@ -72,8 +72,8 @@ public class Spark {
 		dashboard.serviceClick(Service.Spark);
 		
 		// 서비스 시작  
-		SparkPage spark = PageFactory.initElements(driver, SparkPage.class);
-		spark.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.SparkHistoryServer, ServiceStatus.Started, driver);

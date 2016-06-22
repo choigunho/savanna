@@ -21,7 +21,7 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.MapReduce2Page;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MapReduce2 {
@@ -46,8 +46,8 @@ public class MapReduce2 {
 		dashboard.serviceClick(Service.MapReduce2);
 		
 		// 서비스 중지  
-		MapReduce2Page mapReduce2 = PageFactory.initElements(driver, MapReduce2Page.class);
-		mapReduce2.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.MapReduce2_HistoryServer, ServiceStatus.Stoped, driver);
@@ -73,8 +73,8 @@ public class MapReduce2 {
 		dashboard.serviceClick(Service.MapReduce2);
 		
 		// 서비스 시작  
-		MapReduce2Page mapReduce2 = PageFactory.initElements(driver, MapReduce2Page.class);
-		mapReduce2.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.MapReduce2_HistoryServer, ServiceStatus.Started, driver);

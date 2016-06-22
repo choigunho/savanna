@@ -7,29 +7,22 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import common.CommonConstant.Sleep;
+import common.CommonConstant.Wait;
 
 public class YARNPage {
 
 	WebDriver driver;
 
 	@FindBy(how=How.ID, using="service-actions-dropdown-btn")
-	WebElement serviceactionsdropdownbtn;
+	WebElement service_actions_dropdown_btn;
 	@FindBy(how=How.CSS, using="ul.pull-right.dropdown-menu")
-	WebElement dropdownmenu;
-	
-	@FindBy(how=How.CLASS_NAME, using="label_for_app_timeline_server")
-	WebElement label_for_app_timeline_server;
-	@FindBy(how=How.CLASS_NAME, using="label_for_resourcemanager")
-	WebElement label_for_resourcemanager;
-	
-	@FindBy(how=How.CLASS_NAME, using="value_for_app_timeline_server")
-	WebElement value_for_app_timeline_server;
-	@FindBy(how=How.CLASS_NAME, using="value_for_resourcemanager")
-	WebElement value_for_resourcemanager;
+	WebElement dropdown_menu;
 	@FindBy(how=How.CSS, using="button.btn.btn-success")
-	WebElement btnsuccess;
+	WebElement btn_success;
 	
 	@FindBy(how=How.CLASS_NAME, using="quick-links-dropdown")
 	WebElement pageLink;
@@ -40,34 +33,32 @@ public class YARNPage {
 	}
 	
 	public void start() throws Exception {
+		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
 		// 서비스 동작 버튼 클릭
-		serviceactionsdropdownbtn.click();
-		Thread.sleep(Sleep.HalfASecond);
+		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
 		
 		// 시작 선택
-		List<WebElement> elements = dropdownmenu.findElements(By.cssSelector("li"));
-		elements.get(0).click();
-		Thread.sleep(Sleep.HalfASecond);
+		WebElement we = dropdown_menu.findElements(By.cssSelector("li")).get(0);
+		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-play enabled"));
+		we.click();
 		
-		// 최종 확인
-		btnsuccess.click();
+		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
 		
 	}
-	
+
 	public void stop() throws Exception {
+		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
 		// 서비스 동작 버튼 클릭
-		serviceactionsdropdownbtn.click();
-		Thread.sleep(Sleep.HalfASecond);
+		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
 		
-		// 중지 선택
-		List<WebElement> elements = dropdownmenu.findElements(By.cssSelector("li"));
-		elements.get(1).click();
-		Thread.sleep(Sleep.HalfASecond);
+		// 시작 선택
+		WebElement we = dropdown_menu.findElements(By.cssSelector("li")).get(1);
+		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-stop enabled"));
+		we.click();
 		
-		// 최종 확인
-		btnsuccess.click();
+		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
 		
 	}
 

@@ -21,7 +21,7 @@ import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.DashboardPage;
-import PageObject.KafkaPage;
+import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Kafka {
@@ -45,8 +45,8 @@ public class Kafka {
 		dashboard.serviceClick(Service.Kafka);
 		
 		// 서비스 중지  
-		KafkaPage kafka = PageFactory.initElements(driver, KafkaPage.class);
-		kafka.stop();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.stop();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.KafkaBroker, ServiceStatus.Stoped, driver);
@@ -76,8 +76,8 @@ public class Kafka {
 		dashboard.serviceClick(Service.Kafka);
 		
 		// 서비스 시작  
-		KafkaPage kafka = PageFactory.initElements(driver, KafkaPage.class);
-		kafka.start();
+		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
+		service.start();
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.KafkaBroker, ServiceStatus.Started, driver);
