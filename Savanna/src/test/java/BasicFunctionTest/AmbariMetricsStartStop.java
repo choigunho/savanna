@@ -37,11 +37,10 @@ public class AmbariMetricsStartStop {
 		driver = AccountUtil.login(userId, pwd);
 	}
 	
-	
 	@Test
 	public void case1_AmbariMetricsServiceStop() throws Exception {
 		
-		// 페이지 이동
+		// Ambari Metrics 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
 		dashboard.serviceClick(Service.AmbariMetrics);
 		
@@ -51,7 +50,6 @@ public class AmbariMetricsStartStop {
 		
 		// 요약 페이지 문구 변경 확인
 		dashboard.checkStatus(Component.AmbariMetricsCollector, ServiceStatus.Stoped, driver);
-		
 		
 		// 프로세스 kill 확인
 		List<String> hosts = dashboard.getHost(Component.AmbariMetricsCollector);
@@ -70,7 +68,7 @@ public class AmbariMetricsStartStop {
 	@Test
 	public void case2_AmbariMetricsServiceStart() throws Exception {
 
-		// 페이지 이동
+		// Ambari Metrics 페이지 이동
 		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
 		dashboard.serviceClick(Service.AmbariMetrics);
 		

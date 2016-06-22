@@ -166,6 +166,7 @@ public class DashboardPage {
 				// todo 
 				driver.findElement(By.cssSelector("tr.component.DATANODE")).findElement(By.tagName("td")).findElement(By.tagName("a")).click();
 				wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
+				Thread.sleep(Sleep.TwoSecond);
 				label = getDataNodeHosts(component); 
 				break;
 			case Component.MapReduce2_HistoryServer: 
