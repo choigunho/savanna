@@ -18,7 +18,6 @@ import common.TestEnv;
 import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
-import PageObject.DashboardPage;
 import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -28,26 +27,23 @@ public class Flume {
 	String pwd =  AccountUtil.getUserPwd();
 	
 	WebDriver driver;
+	ServicePage service;
 	private StringBuffer verificationErrors = new StringBuffer();
 	
 	@Before
 	public void setUp() throws Exception{
 		driver = AccountUtil.login(userId, pwd);
+		service = PageFactory.initElements(driver, ServicePage.class);
 	}
 	
 	@Test
 	public void case1_ServiceStop() throws Exception {
 		
-		// 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Flume);
-		
 		// 서비스 중지  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.stop();
+		service.stop(Service.Flume);
 		
 		// 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.Flume);
+		List<String> hosts = service.getHost(Component.Flume);
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
@@ -66,16 +62,11 @@ public class Flume {
 	@Test
 	public void case2_ServiceStart() throws Exception {
 	
-		// 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Flume);
-		
 		// 서비스 시작  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.start();
+		service.start(Service.Flume);
 		
 		// 프로세스 running 확인
-		List<String> hosts = dashboard.getHost(Component.Flume);
+		List<String> hosts = service.getHost(Component.Flume);
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();

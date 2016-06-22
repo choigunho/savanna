@@ -20,7 +20,6 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
-import PageObject.DashboardPage;
 import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -30,26 +29,23 @@ public class Kafka {
 	String pwd =  AccountUtil.getUserPwd();
 	
 	WebDriver driver;
+	ServicePage service;
 	private StringBuffer verificationErrors = new StringBuffer();
 	
 	@Before
 	public void setUp() throws Exception{
 		driver = AccountUtil.login(userId, pwd);
+		service = PageFactory.initElements(driver, ServicePage.class);
 	}
 	
 	@Test
 	public void case1_ServiceStop() throws Exception {
 		
-		// Spark 페이지로 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Kafka);
-		
 		// 서비스 중지  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.stop();
+		service.stop(Service.Kafka);
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.KafkaBroker, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.KafkaBroker, ServiceStatus.Stoped, driver);
 		
 		// 프로세스 kill 확인
 		int port = 22;
@@ -58,7 +54,7 @@ public class Kafka {
 		String command = "ps -ef | grep kafka";
 		boolean bCheckExitCode = true;
 
-		List<String> hosts = dashboard.getHost(Component.KafkaBroker);
+		List<String> hosts = service.getHost(Component.KafkaBroker);
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getHOST_IP(hosts.get(i));
 			
@@ -71,16 +67,11 @@ public class Kafka {
 	@Test
 	public void case2_ServiceStart() throws Exception {
 
-		// Spark 페이지로 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Kafka);
-		
 		// 서비스 시작  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.start();
+		service.start(Service.Kafka);
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.KafkaBroker, ServiceStatus.Started, driver);
+		service.checkStatus(Component.KafkaBroker, ServiceStatus.Started, driver);
 		
 		// 프로세스 kill 확인
 		int port = 22;
@@ -89,7 +80,7 @@ public class Kafka {
 		String command = "ps -ef | grep kafka";
 		boolean bCheckExitCode = true;
 		
-		List<String> hosts = dashboard.getHost(Component.KafkaBroker);
+		List<String> hosts = service.getHost(Component.KafkaBroker);
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getHOST_IP(hosts.get(i));
 			

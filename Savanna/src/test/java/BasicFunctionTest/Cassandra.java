@@ -20,7 +20,6 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
-import PageObject.DashboardPage;
 import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -30,31 +29,26 @@ public class Cassandra {
 	String pwd =  AccountUtil.getUserPwd();
 	
 	WebDriver driver;
+	ServicePage service;
 	private StringBuffer verificationErrors = new StringBuffer();
 	
 	@Before
 	public void setUp() throws Exception{
 		driver = AccountUtil.login(userId, pwd);
-//		driver.navigate().to("http://172.21.17.161:8080/#/main/services");
+		service = PageFactory.initElements(driver, ServicePage.class);
 	}
-	
 	
 	@Test
 	public void case1_ServiceStop() throws Exception {
 		
-		// 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Cassandra);
-		
 		// 서비스 중지  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.stop();
+		service.stop(Service.Cassandra);
 		
 		// cassandra seed node 문구 변경 확인
-		dashboard.checkStatus(Component.Cassandra_SeedNode, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.Cassandra_SeedNode, ServiceStatus.Stoped, driver);
 		
 		// cassandra seed node 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.Cassandra_SeedNode);
+		List<String> hosts = service.getHost(Component.Cassandra_SeedNode);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
@@ -66,10 +60,10 @@ public class Cassandra {
 		assertTrue(!result.contains(TestVar.CASSANDRA_SEED_NODE_CMD));
 		
 		// 프로메테우스 S-Casmo 문구 변경 확인
-		dashboard.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Stoped, driver);
 		
 		// 프로메테우스 S-Casmo 프로세스 kill 확인
-		hosts = dashboard.getHost(Component.Cassandra_Prometheus);
+		hosts = service.getHost(Component.Cassandra_Prometheus);
 		host = TestEnv.getHOST_IP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(!result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
@@ -79,19 +73,14 @@ public class Cassandra {
 	@Test
 	public void case2_ServiceStart() throws Exception {
 
-		// 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Cassandra);
-		
-		// 서비스 시작  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.start();
+		// 서비스 시작
+		service.start(Service.Cassandra);
 		
 		// cassandra seed node 문구 변경 확인
-		dashboard.checkStatus(Component.Cassandra_SeedNode, ServiceStatus.Started, driver);
+		service.checkStatus(Component.Cassandra_SeedNode, ServiceStatus.Started, driver);
 		
 		// cassandra seed node 프로세스 running 확인
-		List<String> hosts = dashboard.getHost(Component.Cassandra_SeedNode);
+		List<String> hosts = service.getHost(Component.Cassandra_SeedNode);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
@@ -103,10 +92,10 @@ public class Cassandra {
 		assertTrue(result.contains(TestVar.CASSANDRA_SEED_NODE_CMD));
 				
 		// 프로메테우스 S-Casmo 문구 변경 확인
-		dashboard.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Started, driver);
+		service.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Started, driver);
 		
 		// 프로메테우스 S-Casmo 프로세스 running 확인
-		 hosts = dashboard.getHost(Component.Cassandra_Prometheus);
+		 hosts = service.getHost(Component.Cassandra_Prometheus);
 		 host = TestEnv.getHOST_IP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));

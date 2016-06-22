@@ -15,8 +15,8 @@ import org.openqa.selenium.support.PageFactory;
 
 import common.AccountUtil;
 import common.CommonConstant.Service;
-
 import PageObject.DashboardPage;
+import PageObject.ServicePage;
 import PageObject.YARNPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -26,17 +26,19 @@ public class ECPS_491 {
 	String pwd =  AccountUtil.getUserPwd();
 	
 	WebDriver driver;
+	ServicePage service;
 	
 	@Before
 	public void setUp() throws Exception{
 		driver = AccountUtil.login(userId, pwd);
+		service = PageFactory.initElements(driver, ServicePage.class);
 	}
 	
 	@Test
 	public void ECPS_491() throws Exception {
 		
 		DashboardPage dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
-		dashboardPage.serviceClick(Service.YARN);
+//		dashboardPage.serviceClick(Service.YARN);
 		
 		YARNPage yarn= PageFactory.initElements(driver, YARNPage.class);
 		yarn.pageLinkClick();

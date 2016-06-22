@@ -19,7 +19,6 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
-import PageObject.DashboardPage;
 import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -29,29 +28,26 @@ public class Spark {
 	String pwd =  AccountUtil.getUserPwd();
 	
 	WebDriver driver;
+	ServicePage service;
 	private StringBuffer verificationErrors = new StringBuffer();
 	
 	@Before
 	public void setUp() throws Exception{
 		driver = AccountUtil.login(userId, pwd);
+		service = PageFactory.initElements(driver, ServicePage.class);
 	}
 	
 	@Test
 	public void case1_ServiceStop() throws Exception {
 		
-		// Spark 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Spark);
-		
 		// 서비스 중지  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.stop();
+		service.stop(Service.Spark);
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.SparkHistoryServer, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.SparkHistoryServer, ServiceStatus.Stoped, driver);
 		
 		// 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.SparkHistoryServer);
+		List<String> hosts = service.getHost(Component.SparkHistoryServer);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
@@ -67,19 +63,14 @@ public class Spark {
 	@Test
 	public void case2_ServiceStart() throws Exception {
 	
-		// Spark 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.Spark);
-		
 		// 서비스 시작  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.start();
+		service.start(Service.Spark);
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.SparkHistoryServer, ServiceStatus.Started, driver);
+		service.checkStatus(Component.SparkHistoryServer, ServiceStatus.Started, driver);
 		
 		// 프로세스 running 확인
-		List<String> hosts = dashboard.getHost(Component.SparkHistoryServer);
+		List<String> hosts = service.getHost(Component.SparkHistoryServer);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();

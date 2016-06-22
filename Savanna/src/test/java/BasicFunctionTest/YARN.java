@@ -20,7 +20,6 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
-import PageObject.DashboardPage;
 import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -30,28 +29,25 @@ public class YARN {
 	String pwd =  AccountUtil.getUserPwd();
 	
 	WebDriver driver;
+	ServicePage service;
 	private StringBuffer verificationErrors = new StringBuffer();
 	
 	@Before
 	public void setUp() throws Exception{
 		driver = AccountUtil.login(userId, pwd);
+		service = PageFactory.initElements(driver, ServicePage.class);
 	}
 	
 	@Test
 	public void case1_ServiceStop() throws Exception {
 		
-		// Spark 페이지로 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.YARN);
-		
 		// 서비스 중지  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.stop();
+		service.stop(Service.YARN);
 		
 		// 앱 타임라인 서버 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Stoped, driver);
 		// 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.YARN_AppTimelineServer);
+		List<String> hosts = service.getHost(Component.YARN_AppTimelineServer);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
@@ -62,9 +58,9 @@ public class YARN {
 		assertTrue(!result.contains(TestVar.APP_TIMELINE_SERVER_PROCESS_CMD));
 
 		// 리소스매니저 문구 변경 확인
-		dashboard.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Stoped, driver);
 		// 프로세스 kill 확인
-		hosts = dashboard.getHost(Component.YARN_ResourceManager);
+		hosts = service.getHost(Component.YARN_ResourceManager);
 		host = TestEnv.getHOST_IP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(!result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
@@ -74,18 +70,13 @@ public class YARN {
 	@Test
 	public void case2_ServiceStart() throws Exception {
 
-		// Spark 페이지로 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.YARN);
-		
 		// 서비스 시작  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.start();
+		service.start(Service.YARN);
 		
 		// 앱 타임라인 서버 문구 변경 확인
-		dashboard.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Started, driver);
+		service.checkStatus(Component.YARN_AppTimelineServer, ServiceStatus.Started, driver);
 		// 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.YARN_AppTimelineServer);
+		List<String> hosts = service.getHost(Component.YARN_AppTimelineServer);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
@@ -96,9 +87,9 @@ public class YARN {
 		assertTrue(result.contains(TestVar.APP_TIMELINE_SERVER_PROCESS_CMD));
 		
 		// 리소스매니저 문구 변경 확인
-		dashboard.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Started, driver);
+		service.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Started, driver);
 		// 프로세스 kill 확인
-		hosts = dashboard.getHost(Component.YARN_ResourceManager);
+		hosts = service.getHost(Component.YARN_ResourceManager);
 		host = TestEnv.getHOST_IP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));

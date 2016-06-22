@@ -20,7 +20,6 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
-import PageObject.DashboardPage;
 import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -30,29 +29,26 @@ public class AmbariMetrics {
 	String pwd =  AccountUtil.getUserPwd();
 	
 	WebDriver driver;
+	ServicePage service;
 	private StringBuffer verificationErrors = new StringBuffer();
 	
 	@Before
 	public void setUp() throws Exception{
 		driver = AccountUtil.login(userId, pwd);
+		service = PageFactory.initElements(driver, ServicePage.class);
 	}
 	
 	@Test
 	public void case1_ServiceStop() throws Exception {
 		
-		// Ambari Metrics 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.AmbariMetrics);
-		
 		// 서비스 중지  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.stop();
+		service.stop(Service.AmbariMetrics);
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.AmbariMetricsCollector, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.AmbariMetricsCollector, ServiceStatus.Stoped, driver);
 		
 		// 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.AmbariMetricsCollector);
+		List<String> hosts = service.getHost(Component.AmbariMetricsCollector);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
@@ -68,19 +64,14 @@ public class AmbariMetrics {
 	@Test
 	public void case2_ServiceStart() throws Exception {
 
-		// Ambari Metrics 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.AmbariMetrics);
-		
 		// 서비스 시작  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.start();
+		service.start(Service.AmbariMetrics);
 		
 		// 요약 페이지 문구 변경 확인
-		dashboard.checkStatus(Component.AmbariMetricsCollector, ServiceStatus.Started, driver);
+		service.checkStatus(Component.AmbariMetricsCollector, ServiceStatus.Started, driver);
 				
 		// 프로세스 running 확인
-		List<String> hosts = dashboard.getHost(Component.AmbariMetricsCollector);
+		List<String> hosts = service.getHost(Component.AmbariMetricsCollector);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();

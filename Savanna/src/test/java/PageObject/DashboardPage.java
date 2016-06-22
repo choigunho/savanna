@@ -144,6 +144,7 @@ public class DashboardPage {
 		return driver.findElement(By.className("modal-body")).getText();
 	}
 	
+	/*
 	public void serviceClick(String serviceName) throws Exception {
 		
 		List<WebElement> elements = navServices.findElements(By.cssSelector("li"));
@@ -156,7 +157,8 @@ public class DashboardPage {
 		}
 		Thread.sleep(Sleep.OneSecond);
 	}
-	
+	*/
+	/*
 	public List<String> getHost(String component) throws Exception {
 		List<String> hosts = new ArrayList<String>();
 		List<WebElement> label = null ;
@@ -216,7 +218,8 @@ public class DashboardPage {
 		
 		return hosts;
 	}
-	
+	*/
+	/*
 	public void checkStatus(final String target, final String expectedStatus, WebDriver driver) {
 		
 		(new WebDriverWait(driver, Wait.Long)).until(new ExpectedCondition<Boolean>() {
@@ -255,7 +258,7 @@ public class DashboardPage {
 			}
 		});
 	}
-	
+	*/
 	@FindBy(how=How.CLASS_NAME, using="trim_hostname")
 	List<WebElement> trim_hostname;
 	

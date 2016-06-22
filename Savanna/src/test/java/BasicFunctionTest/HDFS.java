@@ -20,7 +20,6 @@ import common.TestVar;
 import common.CommonConstant.Component;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
-import PageObject.DashboardPage;
 import PageObject.ServicePage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -30,28 +29,25 @@ public class HDFS {
 	String pwd =  AccountUtil.getUserPwd();
 	
 	WebDriver driver;
+	ServicePage service;
 	private StringBuffer verificationErrors = new StringBuffer();
 	
 	@Before
 	public void setUp() throws Exception{
 		driver = AccountUtil.login(userId, pwd);
+		service = PageFactory.initElements(driver, ServicePage.class);
 	}
 	
 	@Test
 	public void case1_ServiceStop() throws Exception {
 		
-		// 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.HDFS);
-		
 		// 서비스 중지  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.stop();
+		service.stop(Service.HDFS);
 		
 		// 네임노드 문구 변경 확인
-		dashboard.checkStatus(Component.HDFS_NameNode, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.HDFS_NameNode, ServiceStatus.Stoped, driver);
 		// 네임노드 프로세스 kill 확인
-		List<String> hosts = dashboard.getHost(Component.HDFS_NameNode);
+		List<String> hosts = service.getHost(Component.HDFS_NameNode);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
@@ -62,16 +58,16 @@ public class HDFS {
 		assertTrue(!result.contains(TestVar.HDFS_NAME_NODE_CMD));
 		
 		// Secondary 네임노드 문구 변경 확인 
-		dashboard.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Stoped, driver);
+		service.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Stoped, driver);
 		// Secondary 네임노드 프로세스 kill 확인
-		hosts = dashboard.getHost(Component.HDFS_SecondaryNamenode);
+		hosts = service.getHost(Component.HDFS_SecondaryNamenode);
 		host = TestEnv.getHOST_IP(hosts.get(0));
 		command = "ps -ef | grep namenode";
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(!result.contains(TestVar.HDFS_SECONDARY_NAME_NODE_CMD));
 		
 		// 데이터노드 프로세스 kill 확인
-		hosts = dashboard.getHost(Component.HDFS_DataNode);
+		hosts = service.getHost(Component.HDFS_DataNode);
 		command = "ps -ef | grep datanode";
 		for(int i=0; i<hosts.size(); i++) {
 			host = TestEnv.getHOST_IP(hosts.get(i));
@@ -84,18 +80,13 @@ public class HDFS {
 	@Test
 	public void case2_ServiceStart() throws Exception {
 		
-		// 페이지 이동
-		DashboardPage dashboard = PageFactory.initElements(driver, DashboardPage.class);
-		dashboard.serviceClick(Service.HDFS);
-		
 		// 서비스 시작  
-		ServicePage service = PageFactory.initElements(driver, ServicePage.class);
-		service.start();
+		service.start(Service.HDFS);
 		
 		// 네임노드 문구 변경 확인
-		dashboard.checkStatus(Component.HDFS_NameNode, ServiceStatus.Started, driver);
+		service.checkStatus(Component.HDFS_NameNode, ServiceStatus.Started, driver);
 		// 프로세스 running 확인
-		List<String> hosts = dashboard.getHost(Component.HDFS_NameNode);
+		List<String> hosts = service.getHost(Component.HDFS_NameNode);
 		String host = TestEnv.getHOST_IP(hosts.get(0));
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
@@ -106,16 +97,16 @@ public class HDFS {
 		assertTrue(result.contains(TestVar.HDFS_NAME_NODE_CMD));
 		
 		// Secondary 네임노드 문구 변경 확인
-		dashboard.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Started, driver);
+		service.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Started, driver);
 		// 프로세스 running 확인
-		hosts = dashboard.getHost(Component.HDFS_SecondaryNamenode);
+		hosts = service.getHost(Component.HDFS_SecondaryNamenode);
 		host = TestEnv.getHOST_IP(hosts.get(0));
 		command = "ps -ef | grep namenode";
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(result.contains(TestVar.HDFS_SECONDARY_NAME_NODE_CMD));
 		
 		// 데이터노드 프로세스 running 확인
-		hosts = dashboard.getHost(Component.HDFS_DataNode);
+		hosts = service.getHost(Component.HDFS_DataNode);
 		command = "ps -ef | grep datanode";
 		for(int i=0; i<hosts.size(); i++) {
 			host = TestEnv.getHOST_IP(hosts.get(i));
