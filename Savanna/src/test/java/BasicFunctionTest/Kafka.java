@@ -18,6 +18,7 @@ import common.RemoteShellUtil;
 import common.TestEnv;
 import common.TestVar;
 import common.CommonConstant.Component;
+import common.CommonConstant.ErrorMessages;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.ServicePage;
@@ -52,14 +53,14 @@ public class Kafka {
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
 		String command = "ps -ef | grep kafka";
-		boolean bCheckExitCode = true;
+		boolean bCheckExitCode = false;
 
 		List<String> hosts = service.getHost(Component.KafkaBroker);
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(!result.contains(TestVar.KAFKA_BROKER_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.KAFKA_BROKER_PROCESS_CMD));
 		}
 		
 	}
@@ -78,14 +79,14 @@ public class Kafka {
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
 		String command = "ps -ef | grep kafka";
-		boolean bCheckExitCode = true;
+		boolean bCheckExitCode = false;
 		
 		List<String> hosts = service.getHost(Component.KafkaBroker);
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(result.contains(TestVar.KAFKA_BROKER_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.KAFKA_BROKER_PROCESS_CMD));
 		}
 		
 	}

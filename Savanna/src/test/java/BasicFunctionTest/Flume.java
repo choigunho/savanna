@@ -17,6 +17,7 @@ import common.RemoteShellUtil;
 import common.TestEnv;
 import common.TestVar;
 import common.CommonConstant.Component;
+import common.CommonConstant.ErrorMessages;
 import common.CommonConstant.Service;
 import PageObject.ServicePage;
 
@@ -47,14 +48,14 @@ public class Flume {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep flume";
-		boolean bCheckExitCode = true;
+		String command = "ps -ef | grep flume | grep -v grep";
+		boolean bCheckExitCode = false;
 		
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue("process is still alive!", !result.contains(TestVar.FLUME_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.FLUME_PROCESS_CMD));
 		}
 		
 	}
@@ -70,14 +71,14 @@ public class Flume {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep flume";
-		boolean bCheckExitCode = true;
+		String command = "ps -ef | grep flume | grep -v grep";
+		boolean bCheckExitCode = false;
 		
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(result.contains(TestVar.FLUME_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.FLUME_PROCESS_CMD));
 		}
 	}
 	

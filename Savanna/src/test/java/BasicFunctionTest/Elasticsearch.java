@@ -18,6 +18,7 @@ import common.RemoteShellUtil;
 import common.TestEnv;
 import common.TestVar;
 import common.CommonConstant.Component;
+import common.CommonConstant.ErrorMessages;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.ServicePage;
@@ -51,15 +52,15 @@ public class Elasticsearch {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep elastic";
-		boolean bCheckExitCode = true;
+		String command = "ps -ef | grep -w elasticsearch | grep -v grep";
+		boolean bCheckExitCode = false;
 		
 		List<String> hosts = service.getHost(Component.Elasticsearch_MasterDataNode);
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(!result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
 		}
 		
 	}
@@ -77,15 +78,15 @@ public class Elasticsearch {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep elastic";
-		boolean bCheckExitCode = true;
+		String command = "ps -ef | grep -w elasticsearch | grep -v grep";
+		boolean bCheckExitCode = false;
 
 		List<String> hosts = service.getHost(Component.Elasticsearch_MasterDataNode);
 		for(int i=0; i<hosts.size(); i++) {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
 		}
 		
 	}

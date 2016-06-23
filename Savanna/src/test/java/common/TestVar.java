@@ -3,10 +3,10 @@ package common;
 public class TestVar {
 
 	// hdfs
-	public static final String HDFS_NAME_NODE_CMD="namenode.NameNode";
-	public static final String HDFS_SECONDARY_NAME_NODE_CMD="namenode.SecondaryNameNode";
+	public static final String HDFS_NAME_NODE_CMD="org.apache.hadoop.hdfs.server.namenode.NameNode";
+	public static final String HDFS_SECONDARY_NAME_NODE_CMD="org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode";
 	public static final String HDFS_DATA_NODE_CMD="org.apache.hadoop.hdfs.server.datanode.DataNode";
-	// mapreduce
+	// mapreduce2
 	public static final String HISTORY_SERVER_PROCESS_CMD="JobHistoryServer";
 	// yarn
 	public static final String APP_TIMELINE_SERVER_PROCESS_CMD="org.apache.hadoop.yarn.server.applicationhistoryservice.ApplicationHistoryServer";

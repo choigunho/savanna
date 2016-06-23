@@ -18,6 +18,7 @@ import common.RemoteShellUtil;
 import common.TestEnv;
 import common.TestVar;
 import common.CommonConstant.Component;
+import common.CommonConstant.ErrorMessages;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.ServicePage;
@@ -54,10 +55,10 @@ public class Cassandra {
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
 		String command = "ps -ef | grep cassandra";
-		boolean bCheckExitCode = true;
+		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(!result.contains(TestVar.CASSANDRA_SEED_NODE_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.CASSANDRA_SEED_NODE_CMD));
 		
 		// 프로메테우스 S-Casmo 문구 변경 확인
 		service.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Stoped, driver);
@@ -66,7 +67,7 @@ public class Cassandra {
 		hosts = service.getHost(Component.Cassandra_Prometheus);
 		host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(!result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
 		
 	}
 	
@@ -86,7 +87,7 @@ public class Cassandra {
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
 		String command = "ps -ef | grep cassandra";
-		boolean bCheckExitCode = true;
+		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
 		assertTrue(result.contains(TestVar.CASSANDRA_SEED_NODE_CMD));
@@ -98,7 +99,7 @@ public class Cassandra {
 		 hosts = service.getHost(Component.Cassandra_Prometheus);
 		 host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
 	}
 	
 	@After

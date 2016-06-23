@@ -14,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import common.AccountUtil;
+import common.CommonConstant.ErrorMessages;
 import common.RemoteShellUtil;
 import common.TestEnv;
 import common.TestVar;
@@ -52,28 +53,28 @@ public class HDFS {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep namenode";
-		boolean bCheckExitCode = true;
+		String command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.namenode.NameNode | grep -v grep";
+		boolean bCheckExitCode = false;
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(!result.contains(TestVar.HDFS_NAME_NODE_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HDFS_NAME_NODE_CMD));
 		
 		// Secondary 네임노드 문구 변경 확인 
 		service.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Stoped, driver);
 		// Secondary 네임노드 프로세스 kill 확인
 		hosts = service.getHost(Component.HDFS_SecondaryNamenode);
 		host = TestEnv.getIP(hosts.get(0));
-		command = "ps -ef | grep namenode";
+		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode | grep -v grep";
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(!result.contains(TestVar.HDFS_SECONDARY_NAME_NODE_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HDFS_SECONDARY_NAME_NODE_CMD));
 		
 		// 데이터노드 프로세스 kill 확인
 		hosts = service.getHost(Component.HDFS_DataNode);
-		command = "ps -ef | grep datanode";
+		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.datanode.DataNode | grep -v grep";
 		for(int i=0; i<hosts.size(); i++) {
 			host = TestEnv.getIP(hosts.get(i));
 			
 			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(!result.contains(TestVar.HDFS_DATA_NODE_CMD));
+			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HDFS_DATA_NODE_CMD));
 		}
 	}
 	
@@ -91,28 +92,28 @@ public class HDFS {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep namenode";
+		String command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.namenode.NameNode | grep -v grep";
 		boolean bCheckExitCode = true;
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(result.contains(TestVar.HDFS_NAME_NODE_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HDFS_NAME_NODE_CMD));
 		
 		// Secondary 네임노드 문구 변경 확인
 		service.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Started, driver);
 		// 프로세스 running 확인
 		hosts = service.getHost(Component.HDFS_SecondaryNamenode);
 		host = TestEnv.getIP(hosts.get(0));
-		command = "ps -ef | grep namenode";
+		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode | grep -v grep";
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(result.contains(TestVar.HDFS_SECONDARY_NAME_NODE_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HDFS_SECONDARY_NAME_NODE_CMD));
 		
 		// 데이터노드 프로세스 running 확인
 		hosts = service.getHost(Component.HDFS_DataNode);
-		command = "ps -ef | grep datanode";
+		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.datanode.DataNode | grep -v grep";
 		for(int i=0; i<hosts.size(); i++) {
 			host = TestEnv.getIP(hosts.get(i));
 			
 			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(result.contains(TestVar.HDFS_DATA_NODE_CMD));
+			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HDFS_DATA_NODE_CMD));
 		}
 	}
 	

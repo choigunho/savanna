@@ -18,6 +18,7 @@ import common.RemoteShellUtil;
 import common.TestEnv;
 import common.TestVar;
 import common.CommonConstant.Component;
+import common.CommonConstant.ErrorMessages;
 import common.CommonConstant.Service;
 import common.CommonConstant.ServiceStatus;
 import PageObject.ServicePage;
@@ -53,9 +54,9 @@ public class YARN {
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
 		String command = "ps -ef | grep yarn";
-		boolean bCheckExitCode = true;
+		boolean bCheckExitCode = false;
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(!result.contains(TestVar.APP_TIMELINE_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.APP_TIMELINE_SERVER_PROCESS_CMD));
 
 		// 리소스매니저 문구 변경 확인
 		service.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Stoped, driver);
@@ -63,7 +64,7 @@ public class YARN {
 		hosts = service.getHost(Component.YARN_ResourceManager);
 		host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(!result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
 		
 	}
 	
@@ -82,9 +83,9 @@ public class YARN {
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
 		String command = "ps -ef | grep yarn";
-		boolean bCheckExitCode = true;
+		boolean bCheckExitCode = false;
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(result.contains(TestVar.APP_TIMELINE_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.APP_TIMELINE_SERVER_PROCESS_CMD));
 		
 		// 리소스매니저 문구 변경 확인
 		service.checkStatus(Component.YARN_ResourceManager, ServiceStatus.Started, driver);
@@ -92,7 +93,7 @@ public class YARN {
 		hosts = service.getHost(Component.YARN_ResourceManager);
 		host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.RESOURCE_MANAGER_PROCESS_CMD));
 		
 	}
 	

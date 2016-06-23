@@ -8,6 +8,11 @@ public class CommonConstant {
 		public static final String Started = "시작됨";
 	}
 	
+	public class ErrorMessages {
+		public static final String ProcessStillAlive = "process is still alive!";
+		public static final String ProcessNotStarted = "process is not started!";
+	}
+	
 	public class Wait {
 		public static final int OneSecond = 1;
 		public static final int FiveSecond = 5;
