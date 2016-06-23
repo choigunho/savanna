@@ -99,6 +99,9 @@ public class ServicePage {
 	List<WebElement> label_for_secondary_namenode;
 	@FindBy(how=How.CLASS_NAME, using="value_for_secondary_namenode")
 	List<WebElement> value_for_secondary_namenode;
+	@FindBy(how=How.CSS, using="tr.component.DATANODE")
+	WebElement tr_component_DATANODE;
+	
 	
 	// flume
 	@FindBy(how=How.ID, using="flume-summary")
@@ -248,8 +251,7 @@ public class ServicePage {
 			case Component.HDFS_NameNode: label = label_for_namenode; break;
 			case Component.HDFS_SecondaryNamenode: label = label_for_secondary_namenode; break;
 			case Component.HDFS_DataNode: 
-				// todo 
-				driver.findElement(By.cssSelector("tr.component.DATANODE")).findElement(By.tagName("td")).findElement(By.tagName("a")).click();
+				tr_component_DATANODE.findElement(By.tagName("td")).findElement(By.tagName("a")).click();
 				wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
 				Thread.sleep(Sleep.TwoSecond);
 				label = getDataNodeHosts(component); 
@@ -278,10 +280,6 @@ public class ServicePage {
 			case Component.Livy_SparkRestServer: label = label_for_livy_sparkrestserver; break;
 			case Component.SparkHistoryServer: label = label_for_spark_jobhistoryserver; break;
 		}
-		
-		//test
-		System.out.println("[test] label: " + label);
-		System.out.println("[test] label: " + label.get(0).findElement(By.tagName("a")).getAttribute("title"));
 		
 		if(component.equals(Component.Flume) || component.equals(Component.HDFS_DataNode)) {
 			for(int i=0; i<label.size(); i++) {

@@ -18,8 +18,6 @@ public class DashboardPage {
 	WebElement backgroundOperationCount;
 	@FindBy(how=How.ID, using="modal-label")
 	WebElement modarHeader;
-	@FindBy(how=How.CLASS_NAME, using="nav-services")
-	WebElement navServices;
 	@FindBy(how=How.CLASS_NAME, using="navbar-inner")
 	WebElement navbarInner;
 	@FindBy(how=How.ID, using="about")
@@ -62,16 +60,4 @@ public class DashboardPage {
 		return driver.findElement(By.className("modal-body")).getText();
 	}
 	
-	@FindBy(how=How.CLASS_NAME, using="trim_hostname")
-	List<WebElement> trim_hostname;
-	
-	public List<WebElement> getFlumeHosts(String component) {
-		List<WebElement> hosts = trim_hostname;
-		return hosts;
-	}
-	
-	public List<WebElement> getDataNodeHosts(String component) {
-		List<WebElement> hosts = trim_hostname;
-		return hosts;
-	}
 }
