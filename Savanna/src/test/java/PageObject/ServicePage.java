@@ -209,19 +209,22 @@ public class ServicePage {
 					case Component.Livy_SparkRestServer: label = label_for_livy_sparkrestserver; value = value_for_livy_sparkrestserver; break;
 					case Component.SparkHistoryServer: label = label_for_spark_jobhistoryserver; value = value_for_spark_jobhistoryserver; break;
 				}
-				
-				int index = 0;
-				for(WebElement we : value) {
-					if(we.getText().equals(expectedStatus)) {
-						index++;
-					}
-				}
 
+				int index = 0;
+				try{
+					for(WebElement we : value) {
+						if(we.getText().equals(expectedStatus)) {
+							index++;
+						}
+					}
+					System.out.println(label.get(0).getText() + " " + value.get(0).getText());
+				} catch(Exception e){}
+				
 				if(index == value.size()) {
-					//System.out.println(label.get(0).getText() + " " + value.get(0).getText());
 					return true;
 				}
 				return false;
+				
 			}
 		});
 	}
