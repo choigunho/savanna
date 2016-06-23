@@ -75,7 +75,7 @@ public class Flume {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep flume | grep -v grep";
+		String command = "ps -ef | grep flume";
 		boolean bCheckExitCode = false;
 		
 		for(int i=0; i<hosts.size(); i++) {

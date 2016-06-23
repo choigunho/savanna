@@ -239,7 +239,8 @@ public class ServicePage {
 			case Component.YARN_ResourceManager: label = label_for_resourcemanager; break;
 			case Component.ZooKeeperServer: label = label_for_zookeeper_server; break;
 			case Component.Flume:
-				flume_summary.findElement(By.tagName("a")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(flume_summary.findElement(By.tagName("a")))).click();
+//				flume_summary.findElement(By.tagName("a")).click();
 				wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
 				Thread.sleep(Sleep.TwoSecond);
 				label = getFlumeHosts(component); 
