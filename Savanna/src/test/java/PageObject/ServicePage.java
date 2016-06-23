@@ -116,6 +116,8 @@ public class ServicePage {
 	
 	@FindBy(how=How.CLASS_NAME, using="nav-services")
 	WebElement nav_services;
+	@FindBy(how=How.ID, using="modal")
+	WebElement modal;
 	
 	public void stop(String serviceName) {
 
@@ -131,6 +133,10 @@ public class ServicePage {
 		we.click();
 		
 		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
+		
+		if(ExpectedConditions.visibilityOf(modal) != null) {
+			wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
+		}
 	}
 	
 	public void start(String serviceName) {
@@ -146,7 +152,11 @@ public class ServicePage {
 		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-play enabled"));
 		we.click();
 		
-		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click();  
+		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click();
+		
+		if(ExpectedConditions.visibilityOf(modal) != null) {
+			wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
+		}
 	}
 	
 	public void movePage(String serviceName) {
