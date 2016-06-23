@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import common.AccountUtil;
+import common.CommonConstant.Sleep;
 import common.RemoteShellUtil;
 import common.TestEnv;
 import common.TestVar;
@@ -65,6 +66,9 @@ public class Flume {
 	
 		// 서비스 시작  
 		service.start(Service.Flume);
+		
+		// 프로세스 시작 대기
+		Thread.sleep(Sleep.ThirtySecond);
 		
 		// 프로세스 running 확인
 		List<String> hosts = service.getHost(Component.Flume);
