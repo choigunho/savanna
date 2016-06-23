@@ -215,12 +215,10 @@ public class ServicePage {
 		
 		// 서비스 페이지에서 호스트 정보를 알아올 때 title 속성값이 없는 경우가 있음.(title 속성값은 시스템에 접근할 때 사용한다)
 		// 그런데 다른 페이지를 갔다 돌아오면 title 속성값이 채워져 있음.
-		// 해결책) 호스트 페이지 로드 후 다시 대시보드 페이지 복귀
+		// 해결책) 호스트 페이지 로드 후 다시 서비스 페이지 복귀
 		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		driver.navigate().to(AccountUtil.getSavannaManagerUrl() + "/#/main/hosts"); 
 		driver.navigate().to(AccountUtil.getSavannaManagerUrl() + "/#/main/services"); 
-//		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("nav-services")));
-//		Thread.sleep(3000);
 				
 		List<String> hosts = new ArrayList<String>();
 		List<WebElement> label = null ;
@@ -229,9 +227,7 @@ public class ServicePage {
 			case Component.HDFS_NameNode: label = label_for_namenode; break;
 			case Component.HDFS_SecondaryNamenode: label = label_for_secondary_namenode; break;
 			case Component.HDFS_DataNode: 
-				tr_component_DATANODE.findElement(By.tagName("td")).findElement(By.tagName("a")).click();
-				wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
-				Thread.sleep(Sleep.TwoSecond);
+				wait.until(ExpectedConditions.elementToBeClickable(tr_component_DATANODE.findElement(By.tagName("td")).findElement(By.tagName("a")))).click();
 				label = getDataNodeHosts(component); 
 				break;
 			case Component.MapReduce2_HistoryServer: label = label_for_historyserver; break;
@@ -240,9 +236,6 @@ public class ServicePage {
 			case Component.ZooKeeperServer: label = label_for_zookeeper_server; break;
 			case Component.Flume:
 				wait.until(ExpectedConditions.elementToBeClickable(flume_summary.findElement(By.tagName("a")))).click();
-//				flume_summary.findElement(By.tagName("a")).click();
-				wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
-				Thread.sleep(Sleep.TwoSecond);
 				label = getFlumeHosts(component); 
 				break;
 			case Component.AmbariMetricsCollector: label = label_for_metrics_collector; break;
@@ -270,12 +263,18 @@ public class ServicePage {
 	@FindBy(how=How.CLASS_NAME, using="trim_hostname")
 	List<WebElement> trim_hostname;
 	
-	public List<WebElement> getFlumeHosts(String component) {
+	public List<WebElement> getFlumeHosts(String component) throws Exception {
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
+		Thread.sleep(Sleep.OneSecond);
+		
 		List<WebElement> hosts = trim_hostname;
 		return hosts;
 	}
 	
-	public List<WebElement> getDataNodeHosts(String component) {
+	public List<WebElement> getDataNodeHosts(String component) throws Exception {
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
+		Thread.sleep(Sleep.OneSecond);
+		
 		List<WebElement> hosts = trim_hostname;
 		return hosts;
 	}
