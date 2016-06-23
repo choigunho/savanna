@@ -107,40 +107,13 @@ public class ServicePage {
 	@FindBy(how=How.ID, using="flume-summary")
 	WebElement flume_summary;
 
+	WebDriverWait wait;
+	
 	public ServicePage(WebDriver driver) {
 		this.driver = driver;
+		wait = new WebDriverWait(driver, Wait.ThirtySecond);
 	}
 	
-	public void start() throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
-		
-		// 서비스 동작 버튼 클릭
-		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
-		
-		// 시작 선택
-		WebElement we = dropdown_menu.findElements(By.cssSelector("li")).get(0);
-		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-play enabled"));
-		we.click();
-		
-		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
-		
-	}
-
-	public void stop() throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
-		
-		// 서비스 동작 버튼 클릭
-		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
-		
-		// 시작 선택
-		WebElement we = dropdown_menu.findElements(By.cssSelector("li")).get(1);
-		wait.until(ExpectedConditions.attributeToBe(we.findElement(By.tagName("i")), "class", "icon-stop enabled"));
-		we.click();
-		
-		wait.until(ExpectedConditions.elementToBeClickable(btn_success)).click(); 
-		
-	}
-
 	@FindBy(how=How.CLASS_NAME, using="nav-services")
 	WebElement nav_services;
 	
@@ -148,8 +121,6 @@ public class ServicePage {
 
 		// 서비스 이동
 		movePage(serviceName);
-		
-		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
 		// 서비스 동작 버튼 클릭
 		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
@@ -166,8 +137,6 @@ public class ServicePage {
 
 		// 서비스 이동
 		movePage(serviceName);
-		
-		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		
 		// 서비스 동작 버튼 클릭
 		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
@@ -239,10 +208,9 @@ public class ServicePage {
 		// 해결책) 호스트 페이지 로드 후 다시 대시보드 페이지 복귀
 		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		driver.navigate().to(AccountUtil.getSavannaManagerUrl() + "/#/main/hosts"); 
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("page-bar")));
 		driver.navigate().to(AccountUtil.getSavannaManagerUrl() + "/#/main/services"); 
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("nav-services")));
-		Thread.sleep(3000);
+//		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("nav-services")));
+//		Thread.sleep(3000);
 				
 		List<String> hosts = new ArrayList<String>();
 		List<WebElement> label = null ;
@@ -256,11 +224,8 @@ public class ServicePage {
 				Thread.sleep(Sleep.TwoSecond);
 				label = getDataNodeHosts(component); 
 				break;
-			case Component.MapReduce2_HistoryServer: 
-				label = label_for_historyserver; break;
-			case Component.YARN_AppTimelineServer: 
-				label = label_for_app_timeline_server; 
-				break;
+			case Component.MapReduce2_HistoryServer: label = label_for_historyserver; break;
+			case Component.YARN_AppTimelineServer: label = label_for_app_timeline_server; break;
 			case Component.YARN_ResourceManager: label = label_for_resourcemanager; break;
 			case Component.ZooKeeperServer: label = label_for_zookeeper_server; break;
 			case Component.Flume:
@@ -270,12 +235,9 @@ public class ServicePage {
 				label = getFlumeHosts(component); 
 				break;
 			case Component.AmbariMetricsCollector: label = label_for_metrics_collector; break;
-			case Component.Cassandra_SeedNode: 
-				label = label_for_cassandraseednode; break;
-			case Component.Cassandra_Prometheus: 
-				label = label_for_prometheus; break;
-			case Component.Elasticsearch_MasterDataNode:
-				label = label_for_master_data_node; break;
+			case Component.Cassandra_SeedNode: label = label_for_cassandraseednode; break; 
+			case Component.Cassandra_Prometheus: label = label_for_prometheus; break;
+			case Component.Elasticsearch_MasterDataNode: label = label_for_master_data_node; break;
 			case Component.KafkaBroker: label = label_for_kafka_broker; break;
 			case Component.Livy_SparkRestServer: label = label_for_livy_sparkrestserver; break;
 			case Component.SparkHistoryServer: label = label_for_spark_jobhistoryserver; break;

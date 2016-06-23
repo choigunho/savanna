@@ -12,6 +12,7 @@ public class CommonConstant {
 		public static final int OneSecond = 1;
 		public static final int FiveSecond = 5;
 		public static final int TenSecond = 10;
+		public static final int ThirtySecond = 30;
 		
 		public static final int Short = 100;
 		public static final int Long = 200;

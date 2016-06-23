@@ -54,7 +54,7 @@ public class Flume {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue("process is not killed!", !result.contains(TestVar.FLUME_PROCESS_CMD));
+			assertTrue("process is still alive!", !result.contains(TestVar.FLUME_PROCESS_CMD));
 		}
 		
 	}
