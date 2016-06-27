@@ -60,7 +60,7 @@ public class Kafka {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.KAFKA_BROKER_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.KAFKA_BROKER));
 		}
 		
 	}
@@ -86,7 +86,7 @@ public class Kafka {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.KAFKA_BROKER_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.KAFKA_BROKER));
 		}
 		
 	}

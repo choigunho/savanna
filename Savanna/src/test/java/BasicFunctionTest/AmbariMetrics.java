@@ -54,12 +54,22 @@ public class AmbariMetrics {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep collector";
+		String command = "ps -ef | grep ambari-metrics-collector";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.AMBARI_METRICS_COLLECTOR_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.AMBARI_METRICS_COLLECTOR_1));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.AMBARI_METRICS_COLLECTOR_2));
 		
+		// 매트릭 모니터 프로세스 kill 확인
+		hosts = service.getHost(Component.AmbariMetricsMonitor);
+		command = "ps -ef | grep `cat /var/run/ambari-metrics-monitor/ambari-metrics-monitor.pid`";
+		for(int i=0; i<hosts.size(); i++) {
+			host = TestEnv.getIP(hosts.get(i));
+			
+			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
+			assertTrue(ErrorMessages.ProcessStillAlive + " at " + hosts.get(i), !result.contains(TestVar.AMBARI_METRICS_MONITOR));
+		}
 	}
 	
 	@Test
@@ -77,11 +87,22 @@ public class AmbariMetrics {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep collector";
+		String command = "ps -ef | grep ambari-metrics-collector";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.AMBARI_METRICS_COLLECTOR_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.AMBARI_METRICS_COLLECTOR_1));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.AMBARI_METRICS_COLLECTOR_2));
+		
+		// 매트릭 모니터 프로세스 running 확인
+		hosts = service.getHost(Component.AmbariMetricsMonitor);
+		command = "ps -ef | grep `cat /var/run/ambari-metrics-monitor/ambari-metrics-monitor.pid`";
+		for(int i=0; i<hosts.size(); i++) {
+			host = TestEnv.getIP(hosts.get(i));
+			
+			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
+			assertTrue(ErrorMessages.ProcessNotStarted + " at " + hosts.get(i), result.contains(TestVar.AMBARI_METRICS_MONITOR));
+		}
 	}
 	
 	@After

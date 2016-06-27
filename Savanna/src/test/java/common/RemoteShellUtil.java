@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -17,10 +18,10 @@ public class RemoteShellUtil {
 		
 	}
 
-	public static void execCommand(String[] host, int port, String user, String passwd, String command, boolean bCheckExitCode) {
+	public static void execCommand(List<String> host, int port, String user, String passwd, String command, boolean bCheckExitCode) {
 		
-		for(int i=0; i<host.length; i++) {
-			execCommand(host[i], port, user, passwd, command, bCheckExitCode);
+		for(int i=0; i<host.size(); i++) {
+			String result = execCommand(host.get(i), port, user, passwd, command, bCheckExitCode);
 		}
 		
 	}
@@ -84,5 +85,5 @@ public class RemoteShellUtil {
 		
 		return outputBuffer.toString();
 	}
-	
+
 }

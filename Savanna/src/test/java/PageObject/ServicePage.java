@@ -77,6 +77,8 @@ public class ServicePage {
 	List<WebElement> label_for_metrics_collector;
 	@FindBy(how=How.CLASS_NAME, using="value_for_metrics_collector")
 	List<WebElement> value_for_metrics_collector;
+	@FindBy(how=How.CLASS_NAME, using="label_for_metrics_monitor")
+	WebElement label_for_metrics_monitor;
 	
 	//kafka
 	@FindBy(how=How.CLASS_NAME, using="label_for_kafka_broker")
@@ -102,10 +104,15 @@ public class ServicePage {
 	@FindBy(how=How.CSS, using="tr.component.DATANODE")
 	WebElement tr_component_DATANODE;
 	
-	
 	// flume
 	@FindBy(how=How.ID, using="flume-summary")
 	WebElement flume_summary;
+	@FindBy(how=How.CLASS_NAME, using="flume-agents-actions")
+	List<WebElement> flume_agents_actions;
+	@FindBy(how=How.CLASS_NAME, using="flume-agents-status")
+	List<WebElement> flume_agents_status;
+	@FindBy(how=How.CLASS_NAME, using="agent-host-name")
+	List<WebElement> agent_host_name;
 
 	WebDriverWait wait;
 	
@@ -183,6 +190,7 @@ public class ServicePage {
 					case Component.YARN_AppTimelineServer: label = label_for_app_timeline_server; value = value_for_app_timeline_server; break;
 					case Component.YARN_ResourceManager: label = label_for_resourcemanager; value = value_for_resourcemanager; break;
 					case Component.ZooKeeperServer: label = label_for_zookeeper_server; value = value_for_zookeeper_server; break;
+					case Component.Flume: label = flume_agents_status; value = flume_agents_actions; break;
 					case Component.AmbariMetricsCollector: label = label_for_metrics_collector; value = value_for_metrics_collector; break;
 					case Component.Cassandra_SeedNode: label = label_for_cassandraseednode; value = value_for_cassandraseednode; break;
 					case Component.Cassandra_Prometheus: label = label_for_prometheus; value = value_for_prometheus; break;
@@ -228,7 +236,7 @@ public class ServicePage {
 			case Component.HDFS_SecondaryNamenode: label = label_for_secondary_namenode; break;
 			case Component.HDFS_DataNode: 
 				wait.until(ExpectedConditions.elementToBeClickable(tr_component_DATANODE.findElement(By.tagName("td")).findElement(By.tagName("a")))).click();
-				label = getDataNodeHosts(component); 
+				label = getSlaveComponentHosts(component); 
 				break;
 			case Component.MapReduce2_HistoryServer: label = label_for_historyserver; break;
 			case Component.YARN_AppTimelineServer: label = label_for_app_timeline_server; break;
@@ -236,18 +244,27 @@ public class ServicePage {
 			case Component.ZooKeeperServer: label = label_for_zookeeper_server; break;
 			case Component.Flume:
 				wait.until(ExpectedConditions.elementToBeClickable(flume_summary.findElement(By.tagName("a")))).click();
-				label = getFlumeHosts(component); 
+				label = getSlaveComponentHosts(component);
 				break;
 			case Component.AmbariMetricsCollector: label = label_for_metrics_collector; break;
+			case Component.AmbariMetricsMonitor:
+				wait.until(ExpectedConditions.elementToBeClickable(label_for_metrics_monitor.findElement(By.tagName("a")))).click();
+				label = getSlaveComponentHosts(component);
+				break;
 			case Component.Cassandra_SeedNode: label = label_for_cassandraseednode; break; 
 			case Component.Cassandra_Prometheus: label = label_for_prometheus; break;
+			case Component.Cassandra_Node:
+				wait.until(ExpectedConditions.elementToBeClickable(CASSANDRANODE.findElement(By.className("summary-label")).findElement(By.tagName("a")))).click();
+				label = getSlaveComponentHosts(component);
+				break;
 			case Component.Elasticsearch_MasterDataNode: label = label_for_master_data_node; break;
 			case Component.KafkaBroker: label = label_for_kafka_broker; break;
 			case Component.Livy_SparkRestServer: label = label_for_livy_sparkrestserver; break;
 			case Component.SparkHistoryServer: label = label_for_spark_jobhistoryserver; break;
 		}
 		
-		if(component.equals(Component.Flume) || component.equals(Component.HDFS_DataNode)) {
+		if(component.equals(Component.Flume) || component.equals(Component.HDFS_DataNode) || component.equals(Component.AmbariMetricsMonitor) ||
+				component.equals(Component.Cassandra_Node)) {
 			for(int i=0; i<label.size(); i++) {
 				hosts.add(label.get(i).findElement(By.tagName("a")).getAttribute("data-original-title"));
 			}	
@@ -263,7 +280,7 @@ public class ServicePage {
 	@FindBy(how=How.CLASS_NAME, using="trim_hostname")
 	List<WebElement> trim_hostname;
 	
-	public List<WebElement> getFlumeHosts(String component) throws Exception {
+	public List<WebElement> getSlaveComponentHosts(String component) throws Exception {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
 		Thread.sleep(Sleep.OneSecond);
 		
@@ -271,11 +288,62 @@ public class ServicePage {
 		return hosts;
 	}
 	
-	public List<WebElement> getDataNodeHosts(String component) throws Exception {
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
-		Thread.sleep(Sleep.OneSecond);
+	@FindBy(how=How.CLASS_NAME, using="service-summary-component-green-live")
+	List<WebElement> service_summary_component_green_live;
+	@FindBy(how=How.CLASS_NAME, using="CASSANDRANODE")
+	WebElement CASSANDRANODE;
+	@FindBy(how=How.CLASS_NAME, using="DATANODE")
+	WebElement DATANODE;
+	
+	public void isStarted(String component) throws Exception {
+		String summary = null;
 		
-		List<WebElement> hosts = trim_hostname;
-		return hosts;
+		switch(component) {
+			case Component.HDFS_DataNode: summary = DATANODE.getText(); break;
+			case Component.Cassandra_Node: summary = CASSANDRANODE.getText(); break;
+		}
+		
+		wait.until(ExpectedConditions.visibilityOfAllElements(service_summary_component_green_live));
+		
+		(new WebDriverWait(driver, Wait.Long)).until(new ExpectedCondition<Boolean>() {
+			
+			public Boolean apply(WebDriver d) {
+				String text = service_summary_component_green_live.get(0).getText();
+				String tmp[] = text.split("/");
+				
+				if(tmp[0] != "0" && tmp[0].equals(tmp[1])) {
+					return true;
+				}
+				return false;
+				
+			}
+		});
+		
+		System.out.println(summary);
+		
+	}
+	
+	public boolean isStoped(String component) throws Exception {
+
+		String summary = null;
+		switch(component) {
+			case Component.HDFS_DataNode: summary = DATANODE.getText(); System.out.println(summary);
+				return wait.until(ExpectedConditions.invisibilityOfAllElements(DATANODE.findElements(By.className("service-summary-component-green-liv"))));
+			case Component.Cassandra_Node: System.out.println(summary); summary = CASSANDRANODE.getText();
+				break;
+		}
+				
+		return wait.until(ExpectedConditions.invisibilityOfAllElements(service_summary_component_green_live));
+	}
+	
+	public List<String> getFlumeAgentList() {
+		List<WebElement> items = flume_agents_status;
+		List<String> list = new ArrayList<String>();
+		
+		for(int i=0; i<items.size(); i++) {
+			list.add(items.get(i).getText());
+		}
+		
+		return list;
 	}
 }

@@ -19,23 +19,4 @@ public class TestEnv {
 		return rb.getString("SYSTEM_PASSWORD");
 	}
 	
-	//Spark
-	public static String getSPARK_HISTORY_SERVER_PORT() {
-		return rb.getString("SPARK_HISTORY_SERVER_PORT");
-	}
-
-	//Elasticsearch
-	public static String getMASTER_DATA_NODE_PORT() {
-		return rb.getString("KAFKA_BROKER_PORT");
-	}
-	
-	//Kafka
-	public static String getKAFKA_BROKER_PORT() {
-		return rb.getString("KAFKA_BROKER_PORT");
-	}
-	
-	//Livy
-	public static String getLIVY_SPARK_REST_SERVER_PORT() {
-		return rb.getString("LIVY_SPARK_REST_SERVER_PORT");
-	}
 }

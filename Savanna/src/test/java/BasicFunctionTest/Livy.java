@@ -55,11 +55,11 @@ public class Livy {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep livy";
+		String command = "ps -ef | grep livy | grep -v grep";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.LIVY_SPARK_REST_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.LIVY_SPARK_REST_SERVER));
 		
 	}
 	
@@ -78,11 +78,11 @@ public class Livy {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep livy";
+		String command = "ps -ef | grep livy | grep -v grep";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.LIVY_SPARK_REST_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.LIVY_SPARK_REST_SERVER));
 		
 	}
 	

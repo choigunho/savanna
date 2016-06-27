@@ -59,7 +59,7 @@ public class MapReduce2 {
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HISTORY_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HISTORY_SERVER));
 	}
 	
 	@Test
@@ -81,7 +81,7 @@ public class MapReduce2 {
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HISTORY_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HISTORY_SERVER));
 	}
 	
 	@After

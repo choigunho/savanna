@@ -53,11 +53,11 @@ public class Spark {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep spark";
+		String command = "ps -ef | grep org.apache.spark.deploy.history.HistoryServer | grep -v grep";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.SPARK_HISTORY_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.SPARK_HISTORY_SERVER));
 
 	}
 	
@@ -76,11 +76,11 @@ public class Spark {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep spark";
+		String command = "ps -ef | grep org.apache.spark.deploy.history.HistoryServer | grep -v grep";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.SPARK_HISTORY_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.SPARK_HISTORY_SERVER));
 	}
 	
 	@After

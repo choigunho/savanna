@@ -60,7 +60,7 @@ public class Elasticsearch {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.MASTER_DATA_NODE));
 		}
 		
 	}
@@ -86,7 +86,7 @@ public class Elasticsearch {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.MASTER_DATA_NODE_PROCESS_CMD));
+			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.MASTER_DATA_NODE));
 		}
 		
 	}

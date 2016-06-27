@@ -58,8 +58,10 @@ public class CommonConstant {
 		public static final String ZooKeeperServer = "ZooKeeperServer";
 		public static final String Flume = "Flume";
 		public static final String AmbariMetricsCollector = "AmbariMetricsCollector";
+		public static final String AmbariMetricsMonitor = "AmbariMetricsMonitor";
 		public static final String Cassandra_SeedNode = "CassandraSeedNode";
 		public static final String Cassandra_Prometheus = "CassandraPrometheus";
+		public static final String Cassandra_Node = "CassandraNode";
 		public static final String Elasticsearch_MasterDataNode = "MasterDataNode";
 		public static final String KafkaBroker = "KafkaBroker";
 		public static final String Livy_SparkRestServer = "SparkRestServer";

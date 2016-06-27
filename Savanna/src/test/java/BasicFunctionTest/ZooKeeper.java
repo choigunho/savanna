@@ -54,11 +54,11 @@ public class ZooKeeper {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep zookeeper";
+		String command = "ps -p `cat /var/run/zookeeper/zookeeper_server.pid` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.ZOOKEEPER_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessStillAlive, result.contains(TestVar.PROCESS_NOT_RUNNING));
 		
 	}
 	
@@ -77,11 +77,11 @@ public class ZooKeeper {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep zookeeper";
+		String command = "ps -p `cat /var/run/zookeeper/zookeeper_server.pid` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.ZOOKEEPER_SERVER_PROCESS_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.PROCESS_RUNNING));
 		
 	}
 	

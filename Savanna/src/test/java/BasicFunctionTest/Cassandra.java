@@ -54,21 +54,34 @@ public class Cassandra {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep cassandra";
+		String command = "ps -p `cat /var/run/cassandra/cassandra.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.CASSANDRA_SEED_NODE_CMD));
+		System.out.println("result: " + result);
+		assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 		
 		// 프로메테우스 S-Casmo 문구 변경 확인
 		service.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Stoped, driver);
 		
+		// 카산드라 노드 문구 변경 확인
+		service.isStoped(Component.Cassandra_Node);
+		// 카산드라 노드 프로세스 kill 확인
+		hosts = service.getHost(Component.Cassandra_Node);
+		for(int i=0; i<hosts.size(); i++) {
+			host = TestEnv.getIP(hosts.get(i));
+			
+			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
+			assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
+		}
+		
+		/*
 		// 프로메테우스 S-Casmo 프로세스 kill 확인
 		hosts = service.getHost(Component.Cassandra_Prometheus);
 		host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
-		
+		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.PROCESS_NOT_RUNNING));
+		*/
 	}
 	
 	@Test
@@ -86,20 +99,34 @@ public class Cassandra {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep cassandra";
+		String command = "ps -p `cat /var/run/cassandra/cassandra.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(result.contains(TestVar.CASSANDRA_SEED_NODE_CMD));
+		System.out.println("result: " + result);
+		assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 				
 		// 프로메테우스 S-Casmo 문구 변경 확인
 		service.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Started, driver);
 		
+		// 카산드라 노드 문구 변경 확인
+		service.isStarted(Component.Cassandra_Node);
+		// 카산드라 노드 프로세스 running 확인
+		hosts = service.getHost(Component.Cassandra_Node);
+		for(int i=0; i<hosts.size(); i++) {
+			host = TestEnv.getIP(hosts.get(i));
+			
+			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
+			assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_RUNNING));
+		}
+				
+		/*
 		// 프로메테우스 S-Casmo 프로세스 running 확인
 		 hosts = service.getHost(Component.Cassandra_Prometheus);
 		 host = TestEnv.getIP(hosts.get(0));
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.CASSANDRA_PROMETHEUS_CMD));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.CASSANDRA_PROMETHEUS));
+		*/
 	}
 	
 	@After
