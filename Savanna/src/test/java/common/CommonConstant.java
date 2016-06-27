@@ -65,6 +65,7 @@ public class CommonConstant {
 		public static final String Cassandra_Node = "CassandraNode";
 		public static final String Elasticsearch_MasterDataNode = "MasterDataNode";
 		public static final String KafkaBroker = "KafkaBroker";
+		public static final String KnoxGateway = "KnoxGateway";
 		public static final String Livy_SparkRestServer = "SparkRestServer";
 		public static final String SparkHistoryServer = "SparkHistoryServer";
 	}

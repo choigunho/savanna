@@ -115,7 +115,15 @@ public class ServicePage {
 	List<WebElement> flume_agents_status;
 	@FindBy(how=How.CLASS_NAME, using="agent-host-name")
 	List<WebElement> agent_host_name;
-
+	
+	//knox
+	@FindBy(how=How.CLASS_NAME, using="label_for_knox_gateway")
+	List<WebElement> label_for_knox_gateway;
+	@FindBy(how=How.CLASS_NAME, using="value_for_knox_gateway")
+	List<WebElement> value_for_knox_gateway;
+	
+	
+	
 	WebDriverWait wait;
 	
 	public ServicePage(WebDriver driver) {
@@ -201,6 +209,7 @@ public class ServicePage {
 					case Component.Cassandra_Prometheus: label = label_for_prometheus; value = value_for_prometheus; break;
 					case Component.Elasticsearch_MasterDataNode: label = label_for_master_data_node; value = value_for_master_data_node; break;
 					case Component.KafkaBroker: label = label_for_kafka_broker; value = value_for_kafka_broker; break;
+					case Component.KnoxGateway: label = label_for_knox_gateway; value = value_for_knox_gateway; break;
 					case Component.Livy_SparkRestServer: label = label_for_livy_sparkrestserver; value = value_for_livy_sparkrestserver; break;
 					case Component.SparkHistoryServer: label = label_for_spark_jobhistoryserver; value = value_for_spark_jobhistoryserver; break;
 				}
@@ -264,6 +273,7 @@ public class ServicePage {
 				break;
 			case Component.Elasticsearch_MasterDataNode: label = label_for_master_data_node; break;
 			case Component.KafkaBroker: label = label_for_kafka_broker; break;
+			case Component.KnoxGateway: label = label_for_knox_gateway; break;
 			case Component.Livy_SparkRestServer: label = label_for_livy_sparkrestserver; break;
 			case Component.SparkHistoryServer: label = label_for_spark_jobhistoryserver; break;
 		}
