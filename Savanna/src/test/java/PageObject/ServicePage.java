@@ -3,6 +3,8 @@ package PageObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -130,7 +132,7 @@ public class ServicePage {
 
 		// 서비스 이동
 		movePage(serviceName);
-		
+				
 		// 서비스 동작 버튼 클릭
 		wait.until(ExpectedConditions.elementToBeClickable(service_actions_dropdown_btn)).click();
 		
@@ -166,14 +168,17 @@ public class ServicePage {
 		}
 	}
 	
-	public void movePage(String serviceName) {
+	public boolean movePage(String serviceName) {
 		List<WebElement> elements = nav_services.findElements(By.cssSelector("li"));
 		for(WebElement element : elements) {
 			if(element.getText().trim().startsWith(serviceName)) {
 				element.click();
-				break;
-			}
+				return true;
+			} 
 		}
+//		fail("Service not installed.");
+		Assume.assumeTrue(serviceName + " not installed.", false);
+		return false;
 	}
 	
 	public void checkStatus(final String componentName, final String expectedStatus, WebDriver driver) {

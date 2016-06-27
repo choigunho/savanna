@@ -42,9 +42,10 @@ public class CommonConstant {
 		public static final String Cassandra = "Cassandra";
 		public static final String Elasticsearch = "Elasticsearch";
 		public static final String Kafka = "Kafka";
+		public static final String Knox = "Knox";
 		public static final String Livy = "Livy";
 		public static final String Spark = "Spark";
-		
+		public static final String Ranger = "Ranger";
 	}
 	
 	public class Component {
