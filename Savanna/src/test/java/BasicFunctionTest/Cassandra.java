@@ -65,7 +65,7 @@ public class Cassandra {
 		service.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Stoped, driver);
 		
 		// 카산드라 노드 문구 변경 확인
-		service.isStoped(Component.Cassandra_Node);
+		service.isCassandraNodeStoped(Component.Cassandra_Node);
 		// 카산드라 노드 프로세스 kill 확인
 		hosts = service.getHost(Component.Cassandra_Node);
 		for(int i=0; i<hosts.size(); i++) {
@@ -110,7 +110,7 @@ public class Cassandra {
 		service.checkStatus(Component.Cassandra_Prometheus, ServiceStatus.Started, driver);
 		
 		// 카산드라 노드 문구 변경 확인
-		service.isStarted(Component.Cassandra_Node);
+		service.isCassandraNodeStarted(Component.Cassandra_Node);
 		// 카산드라 노드 프로세스 running 확인
 		hosts = service.getHost(Component.Cassandra_Node);
 		for(int i=0; i<hosts.size(); i++) {

@@ -53,11 +53,11 @@ public class Spark {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep org.apache.spark.deploy.history.HistoryServer | grep -v grep";
+		String command = "ps -p `cat /var/run/spark/spark-spark-org.apache.spark.deploy.history.HistoryServer-1.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.SPARK_HISTORY_SERVER));
+		assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 
 	}
 	
@@ -76,11 +76,11 @@ public class Spark {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep org.apache.spark.deploy.history.HistoryServer | grep -v grep";
+		String command = "ps -p `cat /var/run/spark/spark-spark-org.apache.spark.deploy.history.HistoryServer-1.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.SPARK_HISTORY_SERVER));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 	}
 	
 	@After

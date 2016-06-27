@@ -52,7 +52,7 @@ public class Kafka {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep kafka";
+		String command = "ps -p `cat /var/run/kafka/kafka.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 
 		List<String> hosts = service.getHost(Component.KafkaBroker);
@@ -60,7 +60,7 @@ public class Kafka {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.KAFKA_BROKER));
+			assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 		}
 		
 	}
@@ -78,7 +78,7 @@ public class Kafka {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep kafka";
+		String command = "ps -p `cat /var/run/kafka/kafka.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		List<String> hosts = service.getHost(Component.KafkaBroker);
@@ -86,7 +86,7 @@ public class Kafka {
 			String host = TestEnv.getIP(hosts.get(i));
 			
 			String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.KAFKA_BROKER));
+			assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 		}
 		
 	}

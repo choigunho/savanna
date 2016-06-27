@@ -55,11 +55,11 @@ public class Livy {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep livy | grep -v grep";
+		String command = "ps -p `cat /var/run/livy/livy.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.LIVY_SPARK_REST_SERVER));
+		assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 		
 	}
 	
@@ -78,11 +78,11 @@ public class Livy {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep livy | grep -v grep";
+		String command = "ps -p `cat /var/run/livy/livy.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.LIVY_SPARK_REST_SERVER));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 		
 	}
 	

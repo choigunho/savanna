@@ -68,7 +68,7 @@ public class HDFS {
 		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HDFS_SECONDARY_NAME_NODE));
 		
 		// 데이터노드 문구 변경 확인
-		service.isStoped(Component.HDFS_DataNode);
+		service.isCassandraNodeStoped(Component.HDFS_DataNode);
 		// 데이터노드 프로세스 kill 확인
 		hosts = service.getHost(Component.HDFS_DataNode);
 		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.datanode.DataNode | grep -v grep";
@@ -109,7 +109,7 @@ public class HDFS {
 		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HDFS_SECONDARY_NAME_NODE));
 		
 		// 데이터노드 문구 변경 확인
-		service.isStarted(Component.HDFS_DataNode);
+		service.isCassandraNodeStarted(Component.HDFS_DataNode);
 		// 데이터노드 프로세스 running 확인
 		hosts = service.getHost(Component.HDFS_DataNode);
 		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.datanode.DataNode | grep -v grep";

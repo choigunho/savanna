@@ -19,13 +19,9 @@ public class TestVar {
 	public static final String AMBARI_METRICS_MONITOR="/usr/lib/python2.6/site-packages/resource_monitoring/main.py start";
 	// cassandra
 	// elasticsearch
-	public static final String MASTER_DATA_NODE="elasticsearch";
 	// kafka
-	public static final String KAFKA_BROKER="ambari-metrics-kafka-sink.jar";
 	// livy
-	public static final String LIVY_SPARK_REST_SERVER="postgresql.jar com.cloudera.hue.livy.server.Main";
 	// spark
-	public static final String SPARK_HISTORY_SERVER="org.apache.spark.deploy.history.HistoryServer";
 	
 	// etc
 	public static final String PROCESS_RUNNING="Running";

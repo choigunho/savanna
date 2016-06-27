@@ -295,7 +295,7 @@ public class ServicePage {
 	@FindBy(how=How.CLASS_NAME, using="DATANODE")
 	WebElement DATANODE;
 	
-	public void isStarted(String component) throws Exception {
+	public void isCassandraNodeStarted(String component) throws Exception {
 		String summary = null;
 		
 		switch(component) {
@@ -323,7 +323,7 @@ public class ServicePage {
 		
 	}
 	
-	public boolean isStoped(String component) throws Exception {
+	public boolean isCassandraNodeStoped(String component) throws Exception {
 
 		String summary = null;
 		switch(component) {
