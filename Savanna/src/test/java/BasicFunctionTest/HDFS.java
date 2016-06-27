@@ -53,30 +53,30 @@ public class HDFS {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.namenode.NameNode | grep -v grep";
+		String command = "ps -p `cat /var/run/hadoop/hdfs/hadoop-hdfs-namenode.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HDFS_NAME_NODE));
+		assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 		
 		// Secondary 네임노드 문구 변경 확인 
 		service.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Stoped, driver);
 		// Secondary 네임노드 프로세스 kill 확인
 		hosts = service.getHost(Component.HDFS_SecondaryNamenode);
 		host = TestEnv.getIP(hosts.get(0));
-		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode | grep -v grep";
+		command = "ps -p `cat /var/run/hadoop/hdfs/hadoop-hdfs-secondarynamenode.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HDFS_SECONDARY_NAME_NODE));
+		assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 		
 		// 데이터노드 문구 변경 확인
 		service.isCassandraNodeStoped(Component.HDFS_DataNode);
 		// 데이터노드 프로세스 kill 확인
 		hosts = service.getHost(Component.HDFS_DataNode);
-		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.datanode.DataNode | grep -v grep";
+		command = "ps -p `cat /var/run/hadoop/hdfs/hadoop-hdfs-datanode.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		for(int i=0; i<hosts.size(); i++) {
 			host = TestEnv.getIP(hosts.get(i));
 			
 			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.HDFS_DATA_NODE));
+			assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 		}
 	}
 	
@@ -94,30 +94,30 @@ public class HDFS {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.namenode.NameNode | grep -v grep";
+		String command = "ps -p `cat /var/run/hadoop/hdfs/hadoop-hdfs-namenode.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = true;
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HDFS_NAME_NODE));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 		
 		// Secondary 네임노드 문구 변경 확인
 		service.checkStatus(Component.HDFS_SecondaryNamenode, ServiceStatus.Started, driver);
 		// 프로세스 running 확인
 		hosts = service.getHost(Component.HDFS_SecondaryNamenode);
 		host = TestEnv.getIP(hosts.get(0));
-		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode | grep -v grep";
+		command = "ps -p `cat /var/run/hadoop/hdfs/hadoop-hdfs-secondarynamenode.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HDFS_SECONDARY_NAME_NODE));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 		
 		// 데이터노드 문구 변경 확인
 		service.isCassandraNodeStarted(Component.HDFS_DataNode);
 		// 데이터노드 프로세스 running 확인
 		hosts = service.getHost(Component.HDFS_DataNode);
-		command = "ps -ef | grep -w org.apache.hadoop.hdfs.server.datanode.DataNode | grep -v grep";
+		command = "ps -p `cat /var/run/hadoop/hdfs/hadoop-hdfs-datanode.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		for(int i=0; i<hosts.size(); i++) {
 			host = TestEnv.getIP(hosts.get(i));
 			
 			result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-			assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.HDFS_DATA_NODE));
+			assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 		}
 	}
 	

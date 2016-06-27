@@ -54,11 +54,11 @@ public class Knox {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep knox-server/bin/gateway.jar | grep -v grep";
+		String command = "ps -p `cat /var/run/knox/gateway.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessStillAlive, !result.contains(TestVar.KNOX_GATEWAY));
+		assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 		
 	}
 	
@@ -77,11 +77,11 @@ public class Knox {
 		int port = 22;
 		String user = TestEnv.getSYSTEM_USER_ID();
 		String passwd = TestEnv.getSYSTEM_USER_PASSWORD();
-		String command = "ps -ef | grep knox-server/bin/gateway.jar | grep -v grep";
+		String command = "ps -p `cat /var/run/knox/gateway.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
 		boolean bCheckExitCode = false;
 		
 		String result = RemoteShellUtil.execCommand(host, port, user, passwd, command, bCheckExitCode);
-		assertTrue(ErrorMessages.ProcessNotStarted, result.contains(TestVar.KNOX_GATEWAY));
+		assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 		
 	}
 	
