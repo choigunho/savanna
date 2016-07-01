@@ -4,7 +4,6 @@ import java.util.ResourceBundle;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -18,16 +17,12 @@ public class AccountUtil {
 		WebDriver driver = new FirefoxDriver();
 		driver.get(getSavannaManagerUrl() + "/#/login");
 		
-		WebElement id = driver.findElement(By.className("login-user-name"));
-		id.sendKeys(userid);
-		
-		WebElement pwd = driver.findElement(By.className("login-user-password"));
-		pwd.sendKeys(password);
-		
-		WebElement btn = driver.findElement(By.className("login-btn"));
-		btn.click();
-		
 		WebDriverWait wait = new WebDriverWait(driver, Wait.FiveSecond);
+		
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("login-user-name"))).sendKeys(userid);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("login-user-password"))).sendKeys(password);
+		wait.until(ExpectedConditions.elementToBeClickable(By.className("login-btn"))).click();; 
+		
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("nav-services"))); 
 		
 		return driver;
