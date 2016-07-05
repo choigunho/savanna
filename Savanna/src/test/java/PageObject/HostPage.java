@@ -30,15 +30,14 @@ public class HostPage {
 		wait = new WebDriverWait(driver, Wait.ThirtySecond);
 	}
 	
-	/**
-	 * 특정 호스트 페이지를 로딩하여 원하는 컴포넌트를 정지, 시작한다.  
-	 *  
-	 */
 	@FindBy(how=How.CSS, using="button.btn.btn-success")
 	WebElement btn_success;
 	@FindBy(how=How.ID, using="modal")
 	WebElement modal;
-	
+	/**
+	 * 특정 호스트 페이지를 로딩하여 원하는 컴포넌트를 정지, 시작한다.  
+	 *  
+	 */
 	public void componentAction(String host, String componentName, String action) throws Exception {
 		
 		// 호스트 페이지 이동
@@ -86,15 +85,14 @@ public class HostPage {
 		
 	}
 	
-	/**
-	 * 특정 호스트 페이지를 로딩하여 원하는 컴포넌트를 추가한다(현재는 kafka broker만 추가할 수 있음).  
-	 *  
-	 */
 	@FindBy(how=How.ID, using="add_component")
 	WebElement add_component;
 	@FindBy(how=How.CSS, using="div.btn-group.pull-right.open")
 	WebElement div;
-	
+	/**
+	 * 특정 호스트 페이지를 로딩하여 원하는 컴포넌트를 추가한다(현재는 kafka broker만 추가할 수 있음).  
+	 *  
+	 */
 	public void addComponent(String host, String component) {
 		
 		// 호스트 페이지 이동

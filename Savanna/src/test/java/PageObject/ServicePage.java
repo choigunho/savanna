@@ -131,15 +131,14 @@ public class ServicePage {
 	}
 	
 	
-	/**
-	 * 사이드 메뉴를 클릭한 후, 해당 페이지가 열리면 우측 상단 버튼을 클릭해 서비스를 중지한다.
-	 * 
-	 */
 	@FindBy(how=How.CLASS_NAME, using="nav-services")
 	WebElement nav_services;
 	@FindBy(how=How.ID, using="modal")
 	WebElement modal;
-	
+	/**
+	 * 사이드 메뉴를 클릭한 후, 해당 페이지가 열리면 우측 상단 버튼을 클릭해 서비스를 중지한다.
+	 * 
+	 */
 	public void stop(String serviceName) {
 
 		// 서비스 이동
@@ -311,13 +310,12 @@ public class ServicePage {
 	}
 	
 	
+	@FindBy(how=How.CLASS_NAME, using="trim_hostname")
+	List<WebElement> trim_hostname;
 	/**
 	 * 슬레이브 컴포넌트가 설치된 호스트를 알아낸다.
 	 * 
 	 */
-	@FindBy(how=How.CLASS_NAME, using="trim_hostname")
-	List<WebElement> trim_hostname;
-	
 	public List<WebElement> getSlaveComponentHosts(String component) throws Exception {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("active-filter")));
 		Thread.sleep(Sleep.OneSecond);
@@ -326,17 +324,16 @@ public class ServicePage {
 		return hosts;
 	}
 	
-	/**
-	 * 슬레이브 컴포넌트의 상태가 상태가 정해진 시간안에 "시작됨"으로 변경되는 것을 확인한다.
-	 *   
-	 */
 	@FindBy(how=How.CLASS_NAME, using="service-summary-component-green-live")
 	List<WebElement> service_summary_component_green_live;
 	@FindBy(how=How.CLASS_NAME, using="CASSANDRANODE")
 	WebElement CASSANDRANODE;
 	@FindBy(how=How.CLASS_NAME, using="DATANODE")
 	WebElement DATANODE;
-	
+	/**
+	 * 슬레이브 컴포넌트의 상태가 상태가 정해진 시간안에 "시작됨"으로 변경되는 것을 확인한다.
+	 *   
+	 */
 	public void isSlaveComponentStarted(String component) throws Exception {
 		String summary = null;
 		
