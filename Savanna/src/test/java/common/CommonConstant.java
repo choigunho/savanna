@@ -8,6 +8,14 @@ public class CommonConstant {
 		public static final String Started = "시작됨";
 	}
 	
+	public class ComponentAction {
+		public static final String ReStart = "재시작";
+		public static final String Start = "시작";
+		public static final String Stop = "정지";
+		public static final String TurnOnMaintenanceMode = "유지보수 모드 켜기";
+		public static final String Delete = "삭제";
+	}
+	
 	public class ErrorMessages {
 		public static final String ProcessStillAlive = "process is still alive!";
 		public static final String ProcessNotStarted = "process is not started!";

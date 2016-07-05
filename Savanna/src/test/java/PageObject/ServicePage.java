@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -360,5 +361,46 @@ public class ServicePage {
 		}
 		
 		return list;
+	}
+	
+	
+	public void checkChangeOfCompnentStatus(final String host, final String componentName, final String expectedStatus, WebDriver driver) throws Exception {
+
+		// 호스트 페이지 이동
+		String url = AccountUtil.getSavannaManagerUrl() + "/#/main/services/" + "KAFKA" + "/sumnnary";
+		driver.navigate().to(url);
+		
+		Thread.sleep(1000);
+		
+		(new WebDriverWait(driver, Wait.Long)).until(new ExpectedCondition<Boolean>() {
+			List<WebElement> labels = null;
+			List<WebElement> values = null;
+			
+			public Boolean apply(WebDriver d) {
+				switch(componentName) {
+					case Component.KafkaBroker: labels = label_for_kafka_broker; values = value_for_kafka_broker; break;
+					
+				}
+
+				for(int i=0; i<labels.size(); i++) {
+					
+					if(labels.get(i).findElement(By.tagName("a")).getAttribute("title").equals(host)) {
+						String label = labels.get(i).getText();
+						
+						System.out.println(label + "(" + host  +  ") " + values.get(i).getText());
+						if(values.get(i).getText().equals(expectedStatus)) {
+							return true;
+						}
+					}
+				}
+				return false;
+				
+				
+			}
+		});
+		
+		
+		
+		
 	}
 }
