@@ -35,7 +35,6 @@ public class ECPS_367 {
 		dashboardPage.userMenuSelect(0); //0: 정보, 1:Savanna 관리, 2:설정, 3:로그아웃
 		
 		String result = dashboardPage.readContents();
-		//System.out.println(result);
 
 		assertTrue(result.contains("All Rights Reserved"));
 		

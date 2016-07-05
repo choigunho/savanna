@@ -30,7 +30,10 @@ public class HostPage {
 		wait = new WebDriverWait(driver, Wait.ThirtySecond);
 	}
 	
-
+	/**
+	 * 특정 호스트 페이지를 로딩하여 원하는 컴포넌트를 정지, 시작한다.  
+	 *  
+	 */
 	@FindBy(how=How.CSS, using="button.btn.btn-success")
 	WebElement btn_success;
 	@FindBy(how=How.ID, using="modal")
@@ -83,6 +86,10 @@ public class HostPage {
 		
 	}
 	
+	/**
+	 * 특정 호스트 페이지를 로딩하여 원하는 컴포넌트를 추가한다(현재는 kafka broker만 추가할 수 있음).  
+	 *  
+	 */
 	@FindBy(how=How.ID, using="add_component")
 	WebElement add_component;
 	@FindBy(how=How.CSS, using="div.btn-group.pull-right.open")
@@ -100,7 +107,8 @@ public class HostPage {
 		List<WebElement> list = menu.findElements(By.tagName("li"));
 		
 		for(WebElement we: list) {
-			System.out.println(">>> " + we.getText());
+			// to do bug fix
+			// System.out.println(">>> " + we.getText());
 			if(we.getText().equals("카프카 브로커")) {
 				//System.out.println("name: " + we.getText());
 				we.click();
@@ -110,8 +118,5 @@ public class HostPage {
 		}
 		
 	}
-	
-	
-	
 	
 }

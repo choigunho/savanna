@@ -123,8 +123,6 @@ public class ServicePage {
 	@FindBy(how=How.CLASS_NAME, using="value_for_knox_gateway")
 	List<WebElement> value_for_knox_gateway;
 	
-	
-	
 	WebDriverWait wait;
 	
 	public ServicePage(WebDriver driver) {
@@ -132,6 +130,11 @@ public class ServicePage {
 		wait = new WebDriverWait(driver, Wait.ThirtySecond);
 	}
 	
+	
+	/**
+	 * 사이드 메뉴를 클릭한 후, 해당 페이지가 열리면 우측 상단 버튼을 클릭해 서비스를 중지한다.
+	 * 
+	 */
 	@FindBy(how=How.CLASS_NAME, using="nav-services")
 	WebElement nav_services;
 	@FindBy(how=How.ID, using="modal")
@@ -157,6 +160,10 @@ public class ServicePage {
 		}
 	}
 	
+	/**
+	 * 사이드 메뉴를 클릭한 후, 해당 페이지가 열리면 우측 상단 버튼을 클릭해 서비스를 시작한다.
+	 * 
+	 */
 	public void start(String serviceName) {
 
 		// 서비스 이동
@@ -177,6 +184,10 @@ public class ServicePage {
 		}
 	}
 	
+	/**
+	 * 사이드 메뉴를 클릭해서 해당 페이지로 이동한다.
+	 * 
+	 */
 	public boolean movePage(String serviceName) {
 		List<WebElement> elements = nav_services.findElements(By.cssSelector("li"));
 		for(WebElement element : elements) {
@@ -185,11 +196,14 @@ public class ServicePage {
 				return true;
 			} 
 		}
-//		fail("Service not installed.");
 		Assume.assumeTrue(serviceName + " not installed.", false);
 		return false;
 	}
 	
+	/**
+	 * 현재 페이지에서 컴포넌트의 상태가 정해진 시간안에 기대값으로 변경되는 것을 확인한다.  
+	 * 
+	 */
 	public void checkStatus(final String componentName, final String expectedStatus, WebDriver driver) {
 		
 		(new WebDriverWait(driver, Wait.Long)).until(new ExpectedCondition<Boolean>() {
@@ -234,11 +248,14 @@ public class ServicePage {
 		});
 	}
 	
+	/**
+	 * 컴포넌트가 설치된 호스트를 알아낸다.
+	 * 
+	 */
 	public List<String> getHost(String component) throws Exception {
-		
-		// 서비스 페이지에서 호스트 정보를 알아올 때 title 속성값이 없는 경우가 있음.(title 속성값은 시스템에 접근할 때 사용한다)
-		// 그런데 다른 페이지를 갔다 돌아오면 title 속성값이 채워져 있음.
-		// 해결책) 호스트 페이지 로드 후 다시 서비스 페이지 복귀
+		// 호스트는 서비스 페이지의 title 속성값으로 알 수 있음. 그런데 title 속성값이 없는 경우가 발생함(title 속성값은 시스템에 접근할 때 사용한다).
+		// 하지만 다른 페이지를 갔다 돌아오면 title 속성값이 채워져 있음.
+		// 해결책) 호스트 페이지 로드했다가 다시 서비스 페이지로 복귀
 		WebDriverWait wait = new WebDriverWait(driver, Wait.TenSecond);
 		driver.navigate().to(AccountUtil.getSavannaManagerUrl() + "/#/main/hosts"); 
 		driver.navigate().to(AccountUtil.getSavannaManagerUrl() + "/#/main/services"); 
@@ -293,6 +310,11 @@ public class ServicePage {
 		return hosts;
 	}
 	
+	
+	/**
+	 * 슬레이브 컴포넌트가 설치된 호스트를 알아낸다.
+	 * 
+	 */
 	@FindBy(how=How.CLASS_NAME, using="trim_hostname")
 	List<WebElement> trim_hostname;
 	
@@ -304,6 +326,10 @@ public class ServicePage {
 		return hosts;
 	}
 	
+	/**
+	 * 슬레이브 컴포넌트의 상태가 상태가 정해진 시간안에 "시작됨"으로 변경되는 것을 확인한다.
+	 *   
+	 */
 	@FindBy(how=How.CLASS_NAME, using="service-summary-component-green-live")
 	List<WebElement> service_summary_component_green_live;
 	@FindBy(how=How.CLASS_NAME, using="CASSANDRANODE")
@@ -311,7 +337,7 @@ public class ServicePage {
 	@FindBy(how=How.CLASS_NAME, using="DATANODE")
 	WebElement DATANODE;
 	
-	public void isCassandraNodeStarted(String component) throws Exception {
+	public void isSlaveComponentStarted(String component) throws Exception {
 		String summary = null;
 		
 		switch(component) {
@@ -339,7 +365,11 @@ public class ServicePage {
 		
 	}
 	
-	public boolean isCassandraNodeStoped(String component) throws Exception {
+	/**
+	 * 슬레이브 컴포넌트의 상태가 상태가 정해진 시간안에 "정지"로 변경되는 것을 확인한다.
+	 *   
+	 */
+	public boolean isSlaveComponentStoped(String component) throws Exception {
 
 		String summary = null;
 		switch(component) {
@@ -352,6 +382,10 @@ public class ServicePage {
 		return wait.until(ExpectedConditions.invisibilityOfAllElements(service_summary_component_green_live));
 	}
 	
+	/**
+	 * Flume이 설치된 호스트를 알아낸다.
+	 *   
+	 */
 	public List<String> getFlumeAgentList() {
 		List<WebElement> items = flume_agents_status;
 		List<String> list = new ArrayList<String>();
@@ -363,7 +397,10 @@ public class ServicePage {
 		return list;
 	}
 	
-	
+	/**
+	 * 특정 카프카 브로커의 상태가 정해진 시간안에 기대값으로 변경되는 것을 확인한다.
+	 * 
+	 */
 	public void checkChangeOfCompnentStatus(final String host, final String componentName, final String expectedStatus, WebDriver driver) throws Exception {
 
 		// 호스트 페이지 이동
@@ -379,7 +416,7 @@ public class ServicePage {
 			public Boolean apply(WebDriver d) {
 				switch(componentName) {
 					case Component.KafkaBroker: labels = label_for_kafka_broker; values = value_for_kafka_broker; break;
-					
+					// todo
 				}
 
 				for(int i=0; i<labels.size(); i++) {
@@ -395,12 +432,8 @@ public class ServicePage {
 				}
 				return false;
 				
-				
 			}
 		});
-		
-		
-		
 		
 	}
 }

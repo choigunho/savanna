@@ -68,7 +68,7 @@ public class HDFS {
 		assertTrue(ErrorMessages.ProcessStillAlive, result.trim().equals(TestVar.PROCESS_NOT_RUNNING));
 		
 		// 데이터노드 문구 변경 확인
-		service.isCassandraNodeStoped(Component.HDFS_DataNode);
+		service.isSlaveComponentStoped(Component.HDFS_DataNode);
 		// 데이터노드 프로세스 kill 확인
 		hosts = service.getHost(Component.HDFS_DataNode);
 		command = "ps -p `cat /var/run/hadoop/hdfs/hadoop-hdfs-datanode.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";
@@ -109,7 +109,7 @@ public class HDFS {
 		assertTrue(ErrorMessages.ProcessNotStarted, result.trim().equals(TestVar.PROCESS_RUNNING));
 		
 		// 데이터노드 문구 변경 확인
-		service.isCassandraNodeStarted(Component.HDFS_DataNode);
+		service.isSlaveComponentStarted(Component.HDFS_DataNode);
 		// 데이터노드 프로세스 running 확인
 		hosts = service.getHost(Component.HDFS_DataNode);
 		command = "ps -p `cat /var/run/hadoop/hdfs/hadoop-hdfs-datanode.pid 2>/dev/null` > /dev/null 2>&1 && echo Running || echo \"Not Running\"";

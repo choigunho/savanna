@@ -32,19 +32,35 @@ public class DashboardPage {
 		this.driver = driver;
 	}
 
+	/**
+	 * 상단 네비게이션바에 있는 백그라운드 오퍼레이션 버튼을 클릭하여 모달을 팝업한다. 
+	 * 
+	 */
 	public void backgroundOperationCountBtnClick() {
 		backgroundOperationCount.click();
 	}
 	
+	/**
+	 * 백그라운드 오퍼레이션 모달 상단의 문구를 읽는다. 
+	 * 
+	 */
 	public String readModarHeader() {
 		return modarHeader.getText();
 	}
 	
+	/**
+	 * 상단 네비게이션바 우측끝에 있는 드롭다운 메뉴를 클릭한다. 
+	 * 
+	 */
 	public void userBtnClick() throws Exception {
 		btn_dropdownMenu.click();
 		Thread.sleep(Sleep.OneSecond);
 	}
 	
+	/**
+	 * 상단 네비게이션바 우측끝에 있는 드롭다운 메뉴에서 원하는 항목을 클릭한다. 
+	 * 
+	 */
 	public void userMenuSelect(int menu) throws Exception {
 		List<WebElement> items = dropdownMenu.findElements(By.cssSelector("li"));
 			switch(menu) {
